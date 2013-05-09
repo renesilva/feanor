@@ -1,0 +1,20 @@
+{
+    "name": "eressea/feanor",
+    "type": "library",
+    "description": "Feanor PHP framework",
+    "keywords": ["framework"],
+    "homepage": "http://www.eresseasolutions.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rene Silva",
+            "email": "rsilva@eresseasolutions.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": { "Feanor\\": "src/" }
+    }
+}
