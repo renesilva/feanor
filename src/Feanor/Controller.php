@@ -2,9 +2,9 @@
 /**
  * Clase base para los controladores
  *
- * @package    FW
- * @author		Rene Silva <rsilva@eresseasolutions.com>
- * @copyright	Copyright (c) 2013 Eressea Solutions Development Team
+ * @package    Feanor
+ * @author     Rene Silva <rsilva@eresseasolutions.com>
+ * @copyright  Copyright (c) 2013 Eressea Solutions Development Team
  * @license    MIT License
  */
 namespace Feanor;
