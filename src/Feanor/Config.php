@@ -1,6 +1,6 @@
 <?php
 /**
- * Clase base para los controladores
+ * Clase de configuración, con funciones get y set
  *
  * @package    Feanor
  * @author     Rene Silva <rsilva@eresseasolutions.com>
