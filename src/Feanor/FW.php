@@ -66,14 +66,14 @@ class FW{
 		}
 
 		//Loading Codeigniter para los tests
-		require_once(BASEPATH.'Feanor/external/CI/codeigniter_functions.php');
-		require_once(BASEPATH.'Feanor/external/CI/Security.php');
+		require_once(__DIR__.'/External_Libraries/CI/codeigniter_functions.php');
+		require_once(__DIR__.'/External_Libraries/CI/Security.php');
 		self::$security = new \CI_Security();
 
 		//helpers
-		require_once(BASEPATH.'Feanor/helpers/text.php');
-		require_once(BASEPATH.'Feanor/helpers/files.php');
-		require_once(BASEPATH.'Feanor/helpers/fw.php');
+		require_once(__DIR__.'/helpers/text.php');
+		require_once(__DIR__.'/helpers/files.php');
+		require_once(__DIR__.'/helpers/fw.php');
 	}
 
 	public function init(){
@@ -410,10 +410,10 @@ CREATE TABLE `'.DB::dbprefix($table['table_name']).'`
 	 */
 	public static function validate($structure,$mod,$values,$restriction){
 
-		require_once(BASEPATH.'Feanor/external/CI/CI.php');
-		require_once(BASEPATH.'Feanor/external/CI/Lang.php');
-		require_once(BASEPATH.'Feanor/external/CI/Form_validation_cessil.php');
-		require_once(BASEPATH.'Feanor/external/CI/language/form_validation_lang.php');
+		require_once(__DIR__.'/External_Libraries/CI/CI.php');
+		require_once(__DIR__.'/External_Libraries/CI/Lang.php');
+		require_once(__DIR__.'/External_Libraries/CI/Form_validation_cessil.php');
+		require_once(__DIR__.'/External_Libraries/CI/language/form_validation_lang.php');
 
 		//de los que si pasan
 		$config = array();
