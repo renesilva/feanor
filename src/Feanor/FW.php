@@ -376,24 +376,24 @@ CREATE TABLE `'.DB::dbprefix($table['table_name']).'`
 
 		$view = new View();
 		
-		$view->part_set('params', $params);//just in case
+		$view->partial_set('params', $params);//just in case
 
-		$view->part_set('table_name', $_table_name);
-		$view->part_set('title', $_title);
-		$view->part_set('form_action', $form_action);
-		$view->part_set('ajax_function', $_ajax_functions);
-		$view->part_set('campos', $fields_show);
-		$view->part_set('html_before_submit', $html_before_submit);
-		$view->part_set('html_before_table', $html_before_table);
-		$view->part_set('hidden_values', $hidden_values);
-		//$view->part_set('nonce', $nonce);
-		$view->part_set('help', $_help);
-		$view->part_set('id', $_id);
+		$view->partial_set('table_name', $_table_name);
+		$view->partial_set('title', $_title);
+		$view->partial_set('form_action', $form_action);
+		$view->partial_set('ajax_function', $_ajax_functions);
+		$view->partial_set('campos', $fields_show);
+		$view->partial_set('html_before_submit', $html_before_submit);
+		$view->partial_set('html_before_table', $html_before_table);
+		$view->partial_set('hidden_values', $hidden_values);
+		//$view->partial_set('nonce', $nonce);
+		$view->partial_set('help', $_help);
+		$view->partial_set('id', $_id);
 
 		//id randomico
 		$rand = mt_rand(0, 32);
 		$random = substr(md5($rand . time()), 0, 7);
-		$view->part_set('random', $random );
+		$view->partial_set('random', $random );
 		
 		$view->part_layout = $template;
 		return array('id'=>$_table_name.'_div_'.$random,'content'=>$view->part_render());
