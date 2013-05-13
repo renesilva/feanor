@@ -317,7 +317,7 @@ CREATE TABLE `'.DB::dbprefix($table['table_name']).'`
 		! isset($params['form_action']) ? $form_action = '/' : $form_action = $params['form_action'];
 		//Definimos el Template del generador,
 		//este puede cambiar en caso de enviar otro parámetro
-		! isset($params['template']) ? $template = 'Feanor/core/views/forms.php' : $template = $params['template'];
+		! isset($params['template']) ? $template = 'core/views/forms.php' : $template = $params['template'];
 		! isset($params['html_before_submit']) ? $html_before_submit = '' : $html_before_submit = $params['html_before_submit'];
 		! isset($params['html_before_table']) ? $html_before_table = '' : $html_before_table = $params['html_before_table'];
 		! isset($params['separator']) ? $separator = '' : $separator = $params['separator'];
@@ -326,7 +326,7 @@ CREATE TABLE `'.DB::dbprefix($table['table_name']).'`
 
 		//Forma para mostrar por defecto
 		if ($_display_type == 'table_edit') {
-			$template = 'Feanor/core/views/generateformtable.php';
+			$template = 'core/views/generateformtable.php';
 		}
 
 		//nonce

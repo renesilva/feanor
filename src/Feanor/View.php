@@ -108,8 +108,8 @@ class View{
 		if(FW::$loaded_module != ''){
 			$base = BASEPATH.'app/modules/'.FW::$loaded_module.'/views/';
 		}
-		if(strpos($layout,'Feanor/core/views/') !== false){
-			$base = __DIR__.'core/views/';
+		if(strpos($layout,'core/views/') !== false){
+			$base = __DIR__.'/';
 		}
 		$template = $base.$layout;
 		try{
