@@ -395,8 +395,8 @@ CREATE TABLE `'.DB::dbprefix($table['table_name']).'`
 		$random = substr(md5($rand . time()), 0, 7);
 		$view->partial_set('random', $random );
 		
-		$view->part_layout = $template;
-		return array('id'=>$_table_name.'_div_'.$random,'content'=>$view->part_render());
+		$view->partial_layout = $template;
+		return array('id'=>$_table_name.'_div_'.$random,'content'=>$view->partial_render());
 
 	}
 
