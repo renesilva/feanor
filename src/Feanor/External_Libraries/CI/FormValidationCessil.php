@@ -11,7 +11,9 @@
  * @copyright	Copyright (c) 2009 - 2012 Eressea Solutions
  * @version		0.1
  */
-class Form_validation_cessil
+namespace Feanor\External_Libraries\CI;
+
+class FormValidationCessil
 {
 
     protected $CI;
@@ -30,7 +32,7 @@ class Form_validation_cessil
      */
     public function __construct ($rules = array())
     {
-        $this->CI = get_ci_instance();
+        $this->CI = CI::get_instance();
 
         // Validation rules can be stored in a config file.
         $this->_config_rules = $rules;

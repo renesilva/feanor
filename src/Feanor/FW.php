@@ -69,8 +69,7 @@ class FW
 
         //Loading Codeigniter para los tests
         require_once(__DIR__ . '/External_Libraries/CI/codeigniter_functions.php');
-        require_once(__DIR__ . '/External_Libraries/CI/Security.php');
-        self::$security = new \CI_Security();
+        self::$security = new External_Libraries\CI\CISecurity();
 
         //helpers
         require_once(__DIR__ . '/helpers/text.php');
@@ -421,9 +420,6 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
     public static function validate ($structure, $mod, $values, $restriction)
     {
 
-        require_once(__DIR__ . '/External_Libraries/CI/CI.php');
-        require_once(__DIR__ . '/External_Libraries/CI/Lang.php');
-        require_once(__DIR__ . '/External_Libraries/CI/Form_validation_cessil.php');
         require_once(__DIR__ . '/External_Libraries/CI/language/form_validation_lang.php');
 
         //de los que si pasan
@@ -483,7 +479,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
             }
         }
 
-        $form_validation_cessil = new \Form_validation_cessil();
+        $form_validation_cessil = new External_Libraries\CI\FormValidationCessil();
 
         $form_validation_cessil->set_rules($config);
 

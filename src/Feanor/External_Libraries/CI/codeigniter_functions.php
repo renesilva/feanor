@@ -1,12 +1,10 @@
 <?php
-define('CI_DEBUG', false);
+namespace Feanor\External_Libraries\CI;
 
 //codeigniter functions
 function log_message ($level = '', $message = '')
 {
-    if ($level == 'debug' && CI_DEBUG) {
-        echo $message;
-    }
+    //echo $message;
 }
 
 function show_error ($message)
@@ -32,7 +30,7 @@ function config_item ($key)
  */
 if (!function_exists('remove_invisible_characters')) {
 
-    function remove_invisible_characters ($str, $url_encoded = TRUE)
+    function remove_invisible_characters ($str, $url_encoded = true)
     {
         $non_displayables = array();
 

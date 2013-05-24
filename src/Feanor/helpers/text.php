@@ -148,7 +148,7 @@ function form_input ($data = '', $value = '', $extra = '')
  */
 function form_prep ($str = '', $field_name = '')
 {
-    public static $prepped_fields = array();
+    $prepped_fields = array();
 
     // if the field name is an array we do this recursively
     if (is_array($str)) {

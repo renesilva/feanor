@@ -23,7 +23,9 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/language.html
  */
-class CI_Lang
+namespace Feanor\External_Libraries\CI;
+
+class CILang
 {
     /**
      * List of translations

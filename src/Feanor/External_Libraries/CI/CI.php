@@ -1,4 +1,5 @@
 <?php
+namespace Feanor\External_Libraries\CI;
 
 class CI
 {
@@ -14,13 +15,8 @@ class CI
     {
         if (!isset(static::$instance)) {
             static::$instance = new static;
-            static::$instance->lang = new CI_Lang();
+            static::$instance->lang = new CILang();
         }
         return static::$instance;
     }
-}
-
-function get_ci_instance ()
-{
-    return CI::get_instance();
 }
