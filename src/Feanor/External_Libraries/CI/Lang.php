@@ -30,21 +30,21 @@ class CI_Lang
      *
      * @var array
      */
-    var $language = array();
+    public $language = array();
 
     /**
      * List of loaded language files
      *
      * @var array
      */
-    var $is_loaded = array();
+    public $is_loaded = array();
 
     /**
      * Constructor
      *
      * @access	public
      */
-    function __construct ()
+    public function __construct ()
     {
         log_message('debug', "Language Class Initialized");
     }
@@ -62,7 +62,7 @@ class CI_Lang
      * @param 	string	alternative path to look for language file
      * @return	mixed
      */
-    function load ($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+    public function load ($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
     {
         $langfile = str_replace('.php', '', $langfile);
 
@@ -110,7 +110,7 @@ class CI_Lang
      * @param	string	$line	the language line
      * @return	string
      */
-    function line ($line = '')
+    public function line ($line = '')
     {
         $value = ($line == '' OR !isset($this->language[$line])) ? FALSE : $this->language[$line];
 

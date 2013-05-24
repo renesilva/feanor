@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * Form Validation Class CESSIL
  * La misma que Form Validation solamente que con un cambio importante,
  * no nos interesa el valor POST, este valor es introducido por el array
@@ -60,8 +60,7 @@ class Form_validation_cessil
     public function set_rules ($field, $label = '', $rules = '')
     {
         // No reason to set rules if we have no POST data
-        /* if (count($_POST) == 0)
-          {
+        /* if (count($_POST) == 0) {
           return $this;
           }
          */
@@ -1150,7 +1149,7 @@ class Form_validation_cessil
     }
 
     //TODO aumentar esta funcion en los cambios
-    function empezar_de_cero ()
+    public function empezar_de_cero ()
     {
         $this->_field_data = array();
         $this->_config_rules = array();

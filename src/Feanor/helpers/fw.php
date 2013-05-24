@@ -63,7 +63,7 @@ function save_metadata ($key, $value, $meta_object_name, $id, $autoload = 0, $me
     if ($result_select->rowCount() > 0) {
         //ya existe entonces update
         $sql = 'UPDATE `' . $meta_tablename . '` SET `meta_value` = ?, `autoload` = ?
-					WHERE `' . $id_name . '` = ? AND sw = 1 AND `meta_key` = ?';
+                    WHERE `' . $id_name . '` = ? AND sw = 1 AND `meta_key` = ?';
         $result = DB::prepare($sql);
         $result->execute(array($value, $autoload, $id, $key));
     } else {

@@ -208,17 +208,17 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
         if (isset($params['meta_tables'])) {
             foreach ($params['meta_tables'] as $meta_table_name) {
                 $query .= '
-					CREATE TABLE `' . DB::dbprefix($meta_table_name) . '_meta`
-					(
-						`id_' . $meta_table_name . '_meta` INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-						`id_' . $meta_table_name . '`  INTEGER  not null ,
-							FOREIGN KEY(`id_' . $meta_table_name . '`)
+                    CREATE TABLE `' . DB::dbprefix($meta_table_name) . '_meta`
+                    (
+                        `id_' . $meta_table_name . '_meta` INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                        `id_' . $meta_table_name . '`  INTEGER  not null ,
+                            FOREIGN KEY(`id_' . $meta_table_name . '`)
                                 REFERENCES `' . $meta_table_name . '`(`id_' . $meta_table_name . '`),
-						`meta_key`  varchar (250)  not null ,
-						`meta_value`  text  not null ,
-						`autoload`  integer  null  default "0" ,
-						`sw` TINYINT(1) not null default 1
-					) ENGINE=MyISAM;';//MyISAM//InnoDB
+                        `meta_key`  varchar (250)  not null ,
+                        `meta_value`  text  not null ,
+                        `autoload`  integer  null  default "0" ,
+                        `sw` TINYINT(1) not null default 1
+                    ) ENGINE=MyISAM;';//MyISAM//InnoDB
             }
         }
 
@@ -310,11 +310,19 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
      * @return array
      */
     public static function generate_form (
-    $_structure, $_title = '', $_ajax_functions = array(), $params = array(), $_display_type = 'form_edit', $_restriction = array(), $_id = 0, $_help = '', $_table_name = '')
+        $_structure,
+        $_title = '',
+        $_ajax_functions = array(),
+        $params = array(),
+        $_display_type = 'form_edit',
+        $_restriction = array(),
+        $_id = 0, $_help = '',
+        $_table_name = '')
     {
 
-        if ($_table_name == '')
+        if ($_table_name == ''){
             $_table_name = $_structure['table_name'];
+        }
         !isset($params['form_action']) ? $form_action = '/' : $form_action = $params['form_action'];
         //Definimos el Template del generador,
         //este puede cambiar en caso de enviar otro parámetro
@@ -354,7 +362,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
         if ($_structure['keys']['auto_increment'] && $_id != 0) {
             $primaryKey = (string) $_structure['keys']['key'][0];
             $query = 'SELECT ' . implode(',', $structure->select_column) . '
-			FROM `' . DB::dbprefix($_table_name) . '` WHERE `' . $primaryKey . '`=' . $_id;
+            FROM `' . DB::dbprefix($_table_name) . '` WHERE `' . $primaryKey . '`=' . $_id;
             $result = DB::query($query);
             if ($result->rowCount() > 0) {
                 foreach ($result->fetch() as $k => $v) {
@@ -510,19 +518,21 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
     public static function add_data ($_structure, $_values, $_restriction = array(), $_id = 0, $_table_name = '')
     {
 
-        if ($_table_name == '')
+        if ($_table_name == ''){
             $_table_name = $_structure['table_name'];
-        if ($_id == 0)
+        }
+        if ($_id == 0){
             $mod = 'add';
-        else
+        } else {
             $mod = 'mod';
+        }
 
         //en caso de que tengamos una estructura alterna
         $structure = new Structure($_structure, $_table_name, '', $_restriction);
 
         $validate = self::validate($structure, $mod, $_values, $_restriction);
 
-        if ($validate['passed'] === TRUE) {
+        if ($validate['passed'] === true) {
             $errors = false;
 
             //de los que no pasan
@@ -552,7 +562,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
                 $primaryKey = (string) $_structure['keys']['key'][0];
                 if ($mod == 'add') {
                     $sqlCode = 'insert into `' . DB::dbprefix($_table_name) . '` (' . implode(',', $fields) . ')
-					values (';
+                    values (';
                     $sizeof_values = sizeof($new_values);
                     for ($ii = 0; $ii < $sizeof_values; $ii++) {
                         $sqlCode .= '?';

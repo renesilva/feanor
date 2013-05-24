@@ -143,8 +143,8 @@ class Model
         }
 
         $query = '
-		SELECT ' . implode(',', $fields) . '
-		FROM ' . DB::$dbprefix_str . static::get_model_table_name()
+        SELECT ' . implode(',', $fields) . '
+        FROM ' . DB::$dbprefix_str . static::get_model_table_name()
                 . $where
                 . $order_by
                 . $limit;
@@ -160,11 +160,11 @@ class Model
             }
         } catch (\Exception $e) {
             echo $e->getMessage() . '<br/>
-				<strong>Model:</strong> ' . get_called_class() . '<br/>
-				<strong>Query:</strong> ' . $query . '<br/>
-				<strong>Options:</strong> ' . var_export($options, true) . '<br/>
-				<strong>Values:</strong> ' . var_export($values, true) . '<br/>
-				';
+                <strong>Model:</strong> ' . get_called_class() . '<br/>
+                <strong>Query:</strong> ' . $query . '<br/>
+                <strong>Options:</strong> ' . var_export($options, true) . '<br/>
+                <strong>Values:</strong> ' . var_export($values, true) . '<br/>
+                ';
             var_dump(debug_backtrace());
         }
     }

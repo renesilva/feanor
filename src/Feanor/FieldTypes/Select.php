@@ -1,8 +1,8 @@
 <?php
 /**
- * 
+ *
  * Genera un <select> que puede tener datos ya seleccionados.
- * 
+ *
  * @package    Feanor/FieldTypes
  * @author     Rene Silva <rsilva@eresseasolutions.com>
  * @copyright  Copyright (c) 2013 Eressea Solutions Development Team
@@ -14,7 +14,6 @@ use Feanor\DB;
 
 class Select extends \Feanor\FieldType
 {
-
     //Acá se guardarán las opciones recuperadas de la base de datos
     protected $options;
     //campos elegidos de la base de datos además del campo id_NombreDeTabla
@@ -66,16 +65,16 @@ class Select extends \Feanor\FieldType
         }
 
         isset($this->params['references']) ?
-            $this->references = $this->params['references'] :
-            $this->references = 'id_' . $this->foreign_table;
+                        $this->references = $this->params['references'] :
+                        $this->references = 'id_' . $this->foreign_table;
         isset($this->params['order']) ? $this->order = $this->params['order'] : $this->order = '';
         isset($this->params['limit']) ? $this->limit = $this->params['limit'] : $this->limit = '';
         isset($this->params['aditional_tables']) ?
-            $this->aditional_tables = $this->params['aditional_tables'] :
-            $this->aditional_tables = array();
+                        $this->aditional_tables = $this->params['aditional_tables'] :
+                        $this->aditional_tables = array();
         isset($this->params['aditional_conditions']) ?
-            $this->additional_conditions = $this->params['aditional_conditions'] :
-            $this->additional_conditions = array();
+                        $this->additional_conditions = $this->params['aditional_conditions'] :
+                        $this->additional_conditions = array();
         if ($this->mode == 'form_static' || $this->mode == 'table_static') {
             //no importan las condiciones porque tenemos que mostrar el valor :S
             $this->additional_conditions = array();
@@ -120,7 +119,7 @@ class Select extends \Feanor\FieldType
                     if ($this->mode == 'form_static' || $this->mode == 'table_static') {
                         if ($valor != 0) {
                             $conditions .= '`' . DB::dbprefix($this->foreign_table) . '`.`' .
-                                           $this->references . '`=' . $valor;
+                                    $this->references . '`=' . $valor;
                         }
                     } else {
                         //para uso de tablas externas.
@@ -157,7 +156,7 @@ class Select extends \Feanor\FieldType
                     //utilizamos aditional_tables como nuestras tablas
                     $additional_tables[] = DB::dbprefix($this->foreign_table);
                     $sql = 'SELECT ' . implode(',', $fieldsArrayComp) . ' ,
-						' . DB::dbprefix($this->foreign_table) . '.' . $this->references;
+                        ' . DB::dbprefix($this->foreign_table) . '.' . $this->references;
                     $sql .= ' FROM ' . implode(',', $additional_tables) . ' ' . $conditions . $order . $limit;
                     $result = DB::query($sql);
                     if ($result->rowCount() > 0) {
@@ -200,31 +199,31 @@ class Select extends \Feanor\FieldType
                 if ($this->params['select_display_type'] == 'multiselect') {
                     $buffer .= form_multiselect($this->name, $options, $valor);
                 } elseif ($this->params['select_display_type'] == 'radio') {
-                    foreach ($options as $id_opcion=> $opcion) {
+                    foreach ($options as $id_opcion => $opcion) {
                         $selected = '';
                         if ((!is_array($valor) && (string) $valor === (string) $id_opcion) ||
                                 (is_array($valor) && in_array($id_opcion, $valor))) {
                             $selected = 'checked="checked"';
                         }
                         $buffer .= '
-							<input type="radio" name="' . $this->name . '" value="' .
+                            <input type="radio" name="' . $this->name . '" value="' .
                                 $id_opcion . '" ' . $selected . '/>' . $opcion . '<br/>';
                     }
                 } elseif ($this->params['select_display_type'] == 'checkbox') {
-                    foreach ($options as $id_opcion=> $opcion) {
+                    foreach ($options as $id_opcion => $opcion) {
                         $selected = '';
                         if ((!is_array($valor) && (string) $valor === (string) $id_opcion) ||
                                 (is_array($valor) && in_array($id_opcion, $valor))) {
                             $selected = 'checked="checked"';
                         }
                         $buffer .= '
-							<input type="checkbox" name="' . $this->name . '[]"
+                            <input type="checkbox" name="' . $this->name . '[]"
                                 value="' . $id_opcion . '" ' . $selected . '/>' . $opcion . '<br/>';
                     }
                 }
             } else {
                 $buffer .= '<select name=' . $this->name . '>';
-                foreach ($options as $id_opcion=> $opcion) {
+                foreach ($options as $id_opcion => $opcion) {
                     $selected = '';
                     if ((!is_array($valor) && (string) $valor === (string) $id_opcion) ||
                             (is_array($valor) && in_array($id_opcion, $valor))) {
@@ -271,11 +270,11 @@ class Select extends \Feanor\FieldType
                     $notNull = ' null ';
                 }
                 $tipo = ' INTEGER ' . $notNull . ',FOREIGN KEY(`' . $this->name . '`)
-							REFERENCES `' . DB::dbprefix($this->foreign_table) . '`(`' . $this->references . '`)';
+                            REFERENCES `' . DB::dbprefix($this->foreign_table) . '`(`' . $this->references . '`)';
                 return '`' . $this->name . '` ' . $tipo;
             } else {
                 $tipo = ' FOREIGN KEY(`' . $this->name . '`)
-								REFERENCES `' . DB::dbprefix($this->foreign_table) . '`(`' . $this->references . '`) ';
+                                REFERENCES `' . DB::dbprefix($this->foreign_table) . '`(`' . $this->references . '`) ';
                 return $tipo;
             }
         }
@@ -301,5 +300,4 @@ class Select extends \Feanor\FieldType
     {
         return $valor;
     }
-
 }

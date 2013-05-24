@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013 Eressea Solutions Development Team
  * @license    MIT License
  */
-namespace Feanor\Core\Models;
+namespace Feanor\core\models;
 
 class Log extends \Feanor\Model
 {

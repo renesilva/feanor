@@ -20,8 +20,9 @@ class Controller
     public function __call ($func, $args)
     {
         if (!method_exists($this, $func)) {
-            throw new \Exception('No existe el m&eacute;todo <strong>' . $func . '</strong>
-						 en el controlador <strong>' . get_class($this) . '</strong>'
+            throw new \Exception(
+                'No existe el m&eacute;todo <strong>' . $func . '</strong>
+                 en el controlador <strong>' . get_class($this) . '</strong>'
             );
         }
     }

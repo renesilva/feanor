@@ -31,7 +31,10 @@ class DB
             if (Config::get('connection_string') != '') {
                 if (Config::get('connection_user') != '') {
                     self::$connection = new \PDO(
-                            Config::get('connection_string'), Config::get('connection_user'), Config::get('connection_password'), array(\PDO::MYSQL_ATTR_FOUND_ROWS => true)
+                        Config::get('connection_string'),
+                        Config::get('connection_user'),
+                        Config::get('connection_password'),
+                        array(\PDO::MYSQL_ATTR_FOUND_ROWS => true)
                     );
                     self::$connection->exec('set names utf8');
                     self::$dbprefix_str = Config::get('connection_dbprefix', '');
@@ -321,7 +324,7 @@ class DB
             return self::$connection->query($statement);
         } catch (\PDOException $err) {
             echo $err->getMessage() . '<br/>
-				[Funci&oacute;n (::query)] Query: <strong>' . $statement . '</strong>';
+                [Funci&oacute;n (::query)] Query: <strong>' . $statement . '</strong>';
             var_dump(debug_backtrace());
         }
     }
