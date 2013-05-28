@@ -17,14 +17,14 @@ class FormValidationCessil
 {
 
     protected $CI;
-    protected $_field_data = array();
-    protected $_config_rules = array();
-    protected $_error_array = array();
-    protected $_error_messages = array();
-    protected $_error_prefix = '<p>';
-    protected $_error_suffix = '</p>';
+    protected $field_data = array();
+    protected $config_rules = array();
+    protected $error_array = array();
+    protected $error_messages = array();
+    protected $error_prefix = '<p>';
+    protected $error_suffix = '</p>';
     public $error_string = '';
-    protected $_safe_form_data = FALSE;
+    protected $safe_form_data = false;
     public $v_values;
 
     /**
@@ -35,7 +35,7 @@ class FormValidationCessil
         $this->CI = CI::getInstance();
 
         // Validation rules can be stored in a config file.
-        $this->_config_rules = $rules;
+        $this->config_rules = $rules;
 
 
         // Set the character encoding in MB.
@@ -59,7 +59,7 @@ class FormValidationCessil
      * @param	string
      * @return	void
      */
-    public function set_rules ($field, $label = '', $rules = '')
+    public function setRules ($field, $label = '', $rules = '')
     {
         // No reason to set rules if we have no POST data
         /* if (count($_POST) == 0) {
@@ -79,7 +79,7 @@ class FormValidationCessil
                 $label = (!isset($row['label'])) ? $row['field'] : $row['label'];
 
                 // Here we go!
-                $this->set_rules($row['field'], $label, $row['rules']);
+                $this->setRules($row['field'], $label, $row['rules']);
             }
             return $this;
         }
@@ -95,7 +95,7 @@ class FormValidationCessil
         // Is the field name an array?  We test for the existence of a bracket "[" in
         // the field name to determine this.  If it is an array, we break it apart
         // into its components so that we can fetch the corresponding POST data later
-        if (strpos($field, '[') !== false AND preg_match_all('/\[(.*?)\]/', $field, $matches)) {
+        if (strpos($field, '[') !== false and preg_match_all('/\[(.*?)\]/', $field, $matches)) {
             // Note: Due to a bug in current() that affects some versions
             // of PHP we can not pass function call directly into it
             $x = explode('[', $field);
@@ -114,13 +114,13 @@ class FormValidationCessil
         }
 
         // Build our master array
-        $this->_field_data[$field] = array(
+        $this->field_data[$field] = array(
             'field'=>$field,
             'label'=>$label,
             'rules'=>$rules,
             'is_array'=>$is_array,
             'keys'=>$indexes,
-            'postdata'=>NULL,
+            'postdata'=>null,
             'error'=>''
         );
 
@@ -140,13 +140,13 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function set_message ($lang, $val = '')
+    public function setMessage ($lang, $val = '')
     {
         if (!is_array($lang)) {
             $lang = array($lang=>$val);
         }
 
-        $this->_error_messages = array_merge($this->_error_messages, $lang);
+        $this->error_messages = array_merge($this->error_messages, $lang);
 
         return $this;
     }
@@ -163,10 +163,10 @@ class FormValidationCessil
      * @param	string
      * @return	void
      */
-    public function set_error_delimiters ($prefix = '<p>', $suffix = '</p>')
+    public function setErrorDelimiters ($prefix = '<p>', $suffix = '</p>')
     {
-        $this->_error_prefix = $prefix;
-        $this->_error_suffix = $suffix;
+        $this->error_prefix = $prefix;
+        $this->error_suffix = $suffix;
 
         return $this;
     }
@@ -184,19 +184,19 @@ class FormValidationCessil
      */
     public function error ($field = '', $prefix = '', $suffix = '')
     {
-        if (!isset($this->_field_data[$field]['error']) or $this->_field_data[$field]['error'] == '') {
+        if (!isset($this->field_data[$field]['error']) or $this->field_data[$field]['error'] == '') {
             return '';
         }
 
         if ($prefix == '') {
-            $prefix = $this->_error_prefix;
+            $prefix = $this->error_prefix;
         }
 
         if ($suffix == '') {
-            $suffix = $this->_error_suffix;
+            $suffix = $this->error_suffix;
         }
 
-        return $prefix . $this->_field_data[$field]['error'] . $suffix;
+        return $prefix . $this->field_data[$field]['error'] . $suffix;
     }
 
     // --------------------------------------------------------------------
@@ -211,24 +211,24 @@ class FormValidationCessil
      * @param	string
      * @return	str
      */
-    public function error_string ($prefix = '', $suffix = '')
+    public function errorString ($prefix = '', $suffix = '')
     {
         // No errrors, validation passes!
-        if (count($this->_error_array) === 0) {
+        if (count($this->error_array) === 0) {
             return '';
         }
 
         if ($prefix == '') {
-            $prefix = $this->_error_prefix;
+            $prefix = $this->error_prefix;
         }
 
         if ($suffix == '') {
-            $suffix = $this->_error_suffix;
+            $suffix = $this->error_suffix;
         }
 
         // Generate the error string
         $str = '';
-        foreach ($this->_error_array as $val) {
+        foreach ($this->error_array as $val) {
             if ($val != '') {
                 $str .= $prefix . $val . $suffix . "\n";
             }
@@ -251,25 +251,25 @@ class FormValidationCessil
     {
         // Do we even have any data to process?  Mm?
         if (count($values) == 0) {
-            return FALSE;
+            return false;
         }
 
         // Does the _field_data array containing the validation rules exist?
         // If not, we look to see if they were assigned via a config file
         $this->v_values = $values;
-        if (count($this->_field_data) == 0) {
+        if (count($this->field_data) == 0) {
             // No validation rules?  We're done...
-            if (count($this->_config_rules) == 0) {
-                return FALSE;
+            if (count($this->config_rules) == 0) {
+                return false;
             }
 
 
-            $this->set_rules($this->_config_rules);
+            $this->setRules($this->config_rules);
 
             // We're we able to set the rules correctly?
-            if (count($this->_field_data) == 0) {
+            if (count($this->field_data) == 0) {
                 log_message('debug', "Unable to find validation rules");
-                return FALSE;
+                return false;
             }
         }
 
@@ -278,38 +278,38 @@ class FormValidationCessil
 
         // Cycle through the rules for each field, match the
         // corresponding $_POST item and test for errors
-        foreach ($this->_field_data as $field=> $row) {
+        foreach ($this->field_data as $field => $row) {
             // Fetch the data from the corresponding $_POST array and cache it in the _field_data array.
             // Depending on whether the field name is an array or a string will determine where we get it from.
 
-            if ($row['is_array'] == TRUE) {
-                $this->_field_data[$field]['postdata'] = $this->_reduce_array($values, $row['keys']);
+            if ($row['is_array'] == true) {
+                $this->field_data[$field]['postdata'] = $this->reduceArray($values, $row['keys']);
             } else {
-                if (isset($values[$field]) AND $values[$field] != "") {
-                    $this->_field_data[$field]['postdata'] = $values[$field];
+                if (isset($values[$field]) and $values[$field] != "") {
+                    $this->field_data[$field]['postdata'] = $values[$field];
                 }
             }
 
-            $this->_execute($row, explode('|', $row['rules']), $this->_field_data[$field]['postdata']);
+            $this->execute($row, explode('|', $row['rules']), $this->field_data[$field]['postdata']);
         }
 
         // Did we end up with any errors?
-        $total_errors = count($this->_error_array);
+        $total_errors = count($this->error_array);
 
         if ($total_errors > 0) {
-            $this->_safe_form_data = TRUE;
+            $this->safe_form_data = true;
         }
 
         // Now we need to re-set the POST data with the new, processed data
-        $this->_reset_post_array();
+        $this->resetPostArray();
 
         // No errors, validation passes!
         if ($total_errors == 0) {
-            return TRUE;
+            return true;
         }
 
         // Validation fails
-        return FALSE;
+        return false;
     }
 
     // --------------------------------------------------------------------
@@ -323,14 +323,14 @@ class FormValidationCessil
      * @param	integer
      * @return	mixed
      */
-    protected function _reduce_array ($array, $keys, $i = 0)
+    protected function reduceArray ($array, $keys, $i = 0)
     {
         if (is_array($array)) {
             if (isset($keys[$i])) {
                 if (isset($array[$keys[$i]])) {
-                    $array = $this->_reduce_array($array[$keys[$i]], $keys, ($i + 1));
+                    $array = $this->reduceArray($array[$keys[$i]], $keys, ($i + 1));
                 } else {
-                    return NULL;
+                    return null;
                 }
             } else {
                 return $array;
@@ -348,13 +348,13 @@ class FormValidationCessil
      * @access	private
      * @return	null
      */
-    protected function _reset_post_array ()
+    protected function resetPostArray ()
     {
-        foreach ($this->_field_data as $field=> $row) {
+        foreach ($this->field_data as $field => $row) {
             if (!is_null($row['postdata'])) {
-                if ($row['is_array'] == FALSE) {
+                if ($row['is_array'] == false) {
                     if (isset($_POST[$row['field']])) {
-                        $_POST[$row['field']] = $this->prep_for_form($row['postdata']);
+                        $_POST[$row['field']] = $this->prepForForm($row['postdata']);
                     }
                 } else {
                     // start with a reference
@@ -371,13 +371,13 @@ class FormValidationCessil
 
                     if (is_array($row['postdata'])) {
                         $array = array();
-                        foreach ($row['postdata'] as $k=> $v) {
-                            $array[$k] = $this->prep_for_form($v);
+                        foreach ($row['postdata'] as $k => $v) {
+                            $array[$k] = $this->prepForForm($v);
                         }
 
                         $post_ref = $array;
                     } else {
-                        $post_ref = $this->prep_for_form($row['postdata']);
+                        $post_ref = $this->prepForForm($row['postdata']);
                     }
                 }
             }
@@ -396,12 +396,12 @@ class FormValidationCessil
      * @param	integer
      * @return	mixed
      */
-    protected function _execute ($row, $rules, $postdata = NULL, $cycles = 0)
+    protected function execute ($row, $rules, $postdata = null, $cycles = 0)
     {
         // If the $_POST data is an array we will run a recursive call
         if (is_array($postdata)) {
-            foreach ($postdata as $key=> $val) {
-                $this->_execute($row, $rules, $val, $cycles);
+            foreach ($postdata as $key => $val) {
+                $this->execute($row, $rules, $val, $cycles);
                 $cycles++;
             }
 
@@ -410,11 +410,11 @@ class FormValidationCessil
 
         // --------------------------------------------------------------------
         // If the field is blank, but NOT required, no further tests are necessary
-        $callback = FALSE;
-        if (!in_array('required', $rules) AND is_null($postdata)) {
+        $callback = false;
+        if (!in_array('required', $rules) and is_null($postdata)) {
             // Before we bail out, does the rule contain a callback?
             if (preg_match("/(callback_\w+(\[.*?\])?)/", implode(' ', $rules), $match)) {
-                $callback = TRUE;
+                $callback = true;
                 $rules = (array('1'=>$match[1]));
             } else {
                 return;
@@ -423,27 +423,27 @@ class FormValidationCessil
 
         // --------------------------------------------------------------------
         // Isset Test. Typically this rule will only apply to checkboxes.
-        if (is_null($postdata) AND $callback == FALSE) {
-            if (in_array('isset', $rules, TRUE) OR in_array('required', $rules)) {
+        if (is_null($postdata) and $callback == false) {
+            if (in_array('isset', $rules, true) or in_array('required', $rules)) {
                 // Set the message type
                 $type = (in_array('required', $rules)) ? 'required' : 'isset';
 
-                if (!isset($this->_error_messages[$type])) {
-                    if (FALSE === ($line = $this->CI->lang->line($type))) {
+                if (!isset($this->error_messages[$type])) {
+                    if (false === ($line = $this->CI->lang->line($type))) {
                         $line = 'The field was not set';
                     }
                 } else {
-                    $line = $this->_error_messages[$type];
+                    $line = $this->error_messages[$type];
                 }
 
                 // Build the error message
-                $message = sprintf($line, $this->_translate_fieldname($row['label']));
+                $message = sprintf($line, $this->translateFieldname($row['label']));
 
                 // Save the error message
-                $this->_field_data[$row['field']]['error'] = $message;
+                $this->field_data[$row['field']]['error'] = $message;
 
-                if (!isset($this->_error_array[$row['field']])) {
-                    $this->_error_array[$row['field']] = $message;
+                if (!isset($this->error_array[$row['field']])) {
+                    $this->error_array[$row['field']] = $message;
                 }
             }
 
@@ -452,42 +452,42 @@ class FormValidationCessil
 
         // --------------------------------------------------------------------
         // Cycle through each rule and run it
-        foreach ($rules As $rule) {
-            $_in_array = FALSE;
+        foreach ($rules as $rule) {
+            $_in_array = false;
 
             // We set the $postdata variable with the current data in our master array so that
             // each cycle of the loop is dealing with the processed data from the last cycle
-            if ($row['is_array'] == TRUE AND is_array($this->_field_data[$row['field']]['postdata'])) {
+            if ($row['is_array'] == true and is_array($this->field_data[$row['field']]['postdata'])) {
                 // We shouldn't need this safety, but just in case there isn't an array index
                 // associated with this cycle we'll bail out
-                if (!isset($this->_field_data[$row['field']]['postdata'][$cycles])) {
+                if (!isset($this->field_data[$row['field']]['postdata'][$cycles])) {
                     continue;
                 }
 
-                $postdata = $this->_field_data[$row['field']]['postdata'][$cycles];
-                $_in_array = TRUE;
+                $postdata = $this->field_data[$row['field']]['postdata'][$cycles];
+                $_in_array = true;
             } else {
-                $postdata = $this->_field_data[$row['field']]['postdata'];
+                $postdata = $this->field_data[$row['field']]['postdata'];
             }
 
             // --------------------------------------------------------------------
             // Is the rule a callback?
-            $callback = FALSE;
+            $callback = false;
             if (substr($rule, 0, 9) == 'callback_') {
                 $rule = substr($rule, 9);
-                $callback = TRUE;
+                $callback = true;
             }
 
             // Strip the parameter (if exists) from the rule
             // Rules can contain a parameter: max_length[5]
-            $param = FALSE;
+            $param = false;
             if (preg_match("/(.*?)\[(.*)\]/", $rule, $match)) {
                 $rule = $match[1];
                 $param = $match[2];
             }
 
             // Call the function that corresponds to the rule
-            if ($callback === TRUE) {
+            if ($callback === true) {
                 if (method_exists($this, $rule)) {
                     // Run the function and grab the result
                     $result = $this->$rule($postdata, $param);
@@ -500,14 +500,14 @@ class FormValidationCessil
 
 
                 // Re-assign the result to the master data array
-                if ($_in_array == TRUE) {
-                    $this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+                if ($_in_array == true) {
+                    $this->field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
                 } else {
-                    $this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+                    $this->field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
                 }
 
                 // If the field isn't required and we just processed a callback we'll move on...
-                if (!in_array('required', $rules, TRUE) AND $result !== FALSE) {
+                if (!in_array('required', $rules, true) and $result !== false) {
                     continue;
                 }
             } else {
@@ -517,10 +517,11 @@ class FormValidationCessil
                     if (function_exists($rule)) {
                         $result = $rule($postdata);
 
-                        if ($_in_array == TRUE) {
-                            $this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+                        if ($_in_array == true) {
+                            $this->field_data[$row['field']]['postdata'][$cycles] =
+                                (is_bool($result)) ? $postdata : $result;
                         } else {
-                            $this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+                            $this->field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
                         }
                     } else {
                         log_message('debug', "Unable to find validation rule: " . $rule);
@@ -531,37 +532,37 @@ class FormValidationCessil
 
                 $result = $this->$rule($postdata, $param);
 
-                if ($_in_array == TRUE) {
-                    $this->_field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
+                if ($_in_array == true) {
+                    $this->field_data[$row['field']]['postdata'][$cycles] = (is_bool($result)) ? $postdata : $result;
                 } else {
-                    $this->_field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
+                    $this->field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
                 }
             }
 
             // Did the rule test negatively?  If so, grab the error.
-            if ($result === FALSE) {
-                if (!isset($this->_error_messages[$rule])) {
-                    if (FALSE === ($line = $this->CI->lang->line($rule))) {
+            if ($result === false) {
+                if (!isset($this->error_messages[$rule])) {
+                    if (false === ($line = $this->CI->lang->line($rule))) {
                         $line = 'Unable to access an error message corresponding to your field name.';
                     }
                 } else {
-                    $line = $this->_error_messages[$rule];
+                    $line = $this->error_messages[$rule];
                 }
 
                 // Is the parameter we are inserting into the error message the name
                 // of another field?  If so we need to grab its "field label"
-                if (isset($this->_field_data[$param]) AND isset($this->_field_data[$param]['label'])) {
-                    $param = $this->_translate_fieldname($this->_field_data[$param]['label']);
+                if (isset($this->field_data[$param]) and isset($this->field_data[$param]['label'])) {
+                    $param = $this->translateFieldname($this->field_data[$param]['label']);
                 }
 
                 // Build the error message
-                $message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
+                $message = sprintf($line, $this->translateFieldname($row['label']), $param);
 
                 // Save the error message
-                $this->_field_data[$row['field']]['error'] = $message;
+                $this->field_data[$row['field']]['error'] = $message;
 
-                if (!isset($this->_error_array[$row['field']])) {
-                    $this->_error_array[$row['field']] = $message;
+                if (!isset($this->error_array[$row['field']])) {
+                    $this->error_array[$row['field']] = $message;
                 }
 
                 return;
@@ -578,7 +579,7 @@ class FormValidationCessil
      * @param	string	the field name
      * @return	string
      */
-    protected function _translate_fieldname ($fieldname)
+    protected function translateFieldname ($fieldname)
     {
         // Do we need to translate the field name?
         // We look for the prefix lang: to determine this
@@ -587,7 +588,7 @@ class FormValidationCessil
             $line = substr($fieldname, 5);
 
             // Were we able to translate the field name?  If not we use $line
-            if (FALSE === ($fieldname = $this->CI->lang->line($line))) {
+            if (false === ($fieldname = $this->CI->lang->line($line))) {
                 return $line;
             }
         }
@@ -608,19 +609,19 @@ class FormValidationCessil
      * @param	string
      * @return	void
      */
-    public function set_value ($field = '', $default = '')
+    public function setValue ($field = '', $default = '')
     {
-        if (!isset($this->_field_data[$field])) {
+        if (!isset($this->field_data[$field])) {
             return $default;
         }
 
         // If the data is an array output them one at a time.
         //     E.g: form_input('name[]', set_value('name[]');
-        if (is_array($this->_field_data[$field]['postdata'])) {
-            return array_shift($this->_field_data[$field]['postdata']);
+        if (is_array($this->field_data[$field]['postdata'])) {
+            return array_shift($this->field_data[$field]['postdata']);
         }
 
-        return $this->_field_data[$field]['postdata'];
+        return $this->field_data[$field]['postdata'];
     }
 
     // --------------------------------------------------------------------
@@ -636,23 +637,23 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function set_select ($field = '', $value = '', $default = FALSE)
+    public function setSelect ($field = '', $value = '', $default = false)
     {
-        if (!isset($this->_field_data[$field]) OR !isset($this->_field_data[$field]['postdata'])) {
-            if ($default === TRUE AND count($this->_field_data) === 0) {
+        if (!isset($this->field_data[$field]) or !isset($this->field_data[$field]['postdata'])) {
+            if ($default === true and count($this->field_data) === 0) {
                 return ' selected="selected"';
             }
             return '';
         }
 
-        $field = $this->_field_data[$field]['postdata'];
+        $field = $this->field_data[$field]['postdata'];
 
         if (is_array($field)) {
             if (!in_array($value, $field)) {
                 return '';
             }
         } else {
-            if (($field == '' OR $value == '') OR ($field != $value)) {
+            if (($field == '' or $value == '') or ($field != $value)) {
                 return '';
             }
         }
@@ -673,23 +674,23 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function set_radio ($field = '', $value = '', $default = FALSE)
+    public function setRadio ($field = '', $value = '', $default = false)
     {
-        if (!isset($this->_field_data[$field]) OR !isset($this->_field_data[$field]['postdata'])) {
-            if ($default === TRUE AND count($this->_field_data) === 0) {
+        if (!isset($this->field_data[$field]) or !isset($this->field_data[$field]['postdata'])) {
+            if ($default === true and count($this->field_data) === 0) {
                 return ' checked="checked"';
             }
             return '';
         }
 
-        $field = $this->_field_data[$field]['postdata'];
+        $field = $this->field_data[$field]['postdata'];
 
         if (is_array($field)) {
             if (!in_array($value, $field)) {
                 return '';
             }
         } else {
-            if (($field == '' OR $value == '') OR ($field != $value)) {
+            if (($field == '' or $value == '') or ($field != $value)) {
                 return '';
             }
         }
@@ -710,23 +711,23 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function set_checkbox ($field = '', $value = '', $default = FALSE)
+    public function setCheckbox ($field = '', $value = '', $default = false)
     {
-        if (!isset($this->_field_data[$field]) OR !isset($this->_field_data[$field]['postdata'])) {
-            if ($default === TRUE AND count($this->_field_data) === 0) {
+        if (!isset($this->field_data[$field]) or !isset($this->field_data[$field]['postdata'])) {
+            if ($default === true and count($this->field_data) === 0) {
                 return ' checked="checked"';
             }
             return '';
         }
 
-        $field = $this->_field_data[$field]['postdata'];
+        $field = $this->field_data[$field]['postdata'];
 
         if (is_array($field)) {
             if (!in_array($value, $field)) {
                 return '';
             }
         } else {
-            if (($field == '' OR $value == '') OR ($field != $value)) {
+            if (($field == '' or $value == '') or ($field != $value)) {
                 return '';
             }
         }
@@ -746,7 +747,7 @@ class FormValidationCessil
     public function required ($str)
     {
         if (!is_array($str)) {
-            return (trim($str) == '') ? FALSE : TRUE;
+            return (trim($str) == '') ? false : true;
         } else {
             return (!empty($str));
         }
@@ -762,13 +763,13 @@ class FormValidationCessil
      * @param	regex
      * @return	bool
      */
-    public function regex_match ($str, $regex)
+    public function regexMatch ($str, $regex)
     {
         if (!preg_match($regex, $str)) {
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 
     // --------------------------------------------------------------------
@@ -784,12 +785,12 @@ class FormValidationCessil
     public function matches ($str, $field)
     {
         if (!isset($this->v_values[$field])) {
-            return FALSE;
+            return false;
         }
 
         $field = $this->v_values[$field];
 
-        return ($str !== $field) ? FALSE : TRUE;
+        return ($str !== $field) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -802,17 +803,17 @@ class FormValidationCessil
      * @param	value
      * @return	bool
      */
-    public function min_length ($str, $val)
+    public function minLength ($str, $val)
     {
         if (preg_match("/[^0-9]/", $val)) {
-            return FALSE;
+            return false;
         }
 
         if (function_exists('mb_strlen')) {
-            return (mb_strlen($str) < $val) ? FALSE : TRUE;
+            return (mb_strlen($str) < $val) ? false : true;
         }
 
-        return (strlen($str) < $val) ? FALSE : TRUE;
+        return (strlen($str) < $val) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -825,18 +826,18 @@ class FormValidationCessil
      * @param	value
      * @return	bool
      */
-    public function max_length ($str, $val)
+    public function maxLength ($str, $val)
     {
         if (preg_match("/[^0-9]/", $val)) {
-            return FALSE;
+            return false;
         }
 
         if (function_exists('mb_strlen')) {
             $str = (string) $str;
-            return (mb_strlen($str) > $val) ? FALSE : TRUE;
+            return (mb_strlen($str) > $val) ? false : true;
         }
 
-        return (strlen($str) > $val) ? FALSE : TRUE;
+        return (strlen($str) > $val) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -849,17 +850,17 @@ class FormValidationCessil
      * @param	value
      * @return	bool
      */
-    public function exact_length ($str, $val)
+    public function exactLength ($str, $val)
     {
         if (preg_match("/[^0-9]/", $val)) {
-            return FALSE;
+            return false;
         }
 
         if (function_exists('mb_strlen')) {
-            return (mb_strlen($str) != $val) ? FALSE : TRUE;
+            return (mb_strlen($str) != $val) ? false : true;
         }
 
-        return (strlen($str) != $val) ? FALSE : TRUE;
+        return (strlen($str) != $val) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -871,9 +872,10 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function valid_email ($str)
+    public function validEmail ($str)
     {
-        return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+        return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str))
+            ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -885,19 +887,19 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function valid_emails ($str)
+    public function validEmails ($str)
     {
-        if (strpos($str, ',') === FALSE) {
-            return $this->valid_email(trim($str));
+        if (strpos($str, ',') === false) {
+            return $this->validEmail(trim($str));
         }
 
         foreach (explode(',', $str) as $email) {
-            if (trim($email) != '' && $this->valid_email(trim($email)) === FALSE) {
-                return FALSE;
+            if (trim($email) != '' && $this->validEmail(trim($email)) === false) {
+                return false;
             }
         }
 
-        return TRUE;
+        return true;
     }
 
     // --------------------------------------------------------------------
@@ -911,7 +913,7 @@ class FormValidationCessil
      */
     public function alpha ($str)
     {
-        return (!preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE;
+        return (!preg_match("/^([a-z])+$/i", $str)) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -923,9 +925,9 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function alpha_numeric ($str)
+    public function alphaNumeric ($str)
     {
-        return (!preg_match("/^([a-z0-9])+$/i", $str)) ? FALSE : TRUE;
+        return (!preg_match("/^([a-z0-9])+$/i", $str)) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -937,9 +939,9 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function alpha_dash ($str)
+    public function alphaDash ($str)
     {
-        return (!preg_match("/^([-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
+        return (!preg_match("/^([-a-z0-9_-])+$/i", $str)) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -965,9 +967,9 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function is_numeric ($str)
+    public function isNumeric ($str)
     {
-        return (!is_numeric($str)) ? FALSE : TRUE;
+        return (!is_numeric($str)) ? false : true;
     }
 
     // --------------------------------------------------------------------
@@ -1007,10 +1009,10 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function greater_than ($str, $min)
+    public function greaterThan ($str, $min)
     {
         if (!is_numeric($str)) {
-            return FALSE;
+            return false;
         }
         return $str > $min;
     }
@@ -1024,10 +1026,10 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function less_than ($str, $max)
+    public function lessThan ($str, $max)
     {
         if (!is_numeric($str)) {
-            return FALSE;
+            return false;
         }
         return $str < $max;
     }
@@ -1041,7 +1043,7 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function is_natural ($str)
+    public function isNatural ($str)
     {
         return (bool) preg_match('/^[0-9]+$/', $str);
     }
@@ -1055,17 +1057,17 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function is_natural_no_zero ($str)
+    public function isNaturalNoZero ($str)
     {
         if (!preg_match('/^[0-9]+$/', $str)) {
-            return FALSE;
+            return false;
         }
 
         if ($str == 0) {
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 
     // --------------------------------------------------------------------
@@ -1080,7 +1082,7 @@ class FormValidationCessil
      * @param	string
      * @return	bool
      */
-    public function valid_base64 ($str)
+    public function validBase64 ($str)
     {
         return (bool) !preg_match('/[^a-zA-Z0-9\/\+=]/', $str);
     }
@@ -1097,17 +1099,17 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function prep_for_form ($data = '')
+    public function prepForForm ($data = '')
     {
         if (is_array($data)) {
-            foreach ($data as $key=> $val) {
-                $data[$key] = $this->prep_for_form($val);
+            foreach ($data as $key => $val) {
+                $data[$key] = $this->prepForForm($val);
             }
 
             return $data;
         }
 
-        if ($this->_safe_form_data == FALSE OR $data === '') {
+        if ($this->safe_form_data == false or $data === '') {
             return $data;
         }
 
@@ -1123,9 +1125,9 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function prep_url ($str = '')
+    public function prepUrl ($str = '')
     {
-        if ($str == 'http://' OR $str == '') {
+        if ($str == 'http://' or $str == '') {
             return '';
         }
 
@@ -1145,22 +1147,19 @@ class FormValidationCessil
      * @param	string
      * @return	string
      */
-    public function encode_php_tags ($str)
+    public function encodePhpTags ($str)
     {
         return str_replace(array('<?php', '<?PHP', '<?', '?>'), array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
     }
 
     //TODO aumentar esta funcion en los cambios
-    public function empezar_de_cero ()
+    public function empezarDeCero ()
     {
-        $this->_field_data = array();
-        $this->_config_rules = array();
-        $this->_error_array = array();
-        $this->_error_messages = array();
+        $this->field_data = array();
+        $this->config_rules = array();
+        $this->error_array = array();
+        $this->error_messages = array();
         $this->error_string = '';
         $this->v_values = array();
     }
-
 }
-
-// END Form Validation Class Cessil

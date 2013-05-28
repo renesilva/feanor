@@ -249,7 +249,7 @@ class Select extends \Feanor\FieldType
 
         if (isset($this->params['save_as_text']) && $this->params['save_as_text']) {
             $buffer = '';
-            if (preg_match('/max_length\[(.*?)\]/', $this->conditions, $val)) {
+            if (preg_match('/maxLength\[(.*?)\]/', $this->conditions, $val)) {
                 $buffer = ' varchar (' . $val[1] . ') ';
             }
             if ($this->required) {

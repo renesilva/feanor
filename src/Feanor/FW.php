@@ -481,11 +481,11 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
 
         $form_validation_cessil = new External_Libraries\CI\FormValidationCessil();
 
-        $form_validation_cessil->set_rules($config);
+        $form_validation_cessil->setRules($config);
 
         $run = $form_validation_cessil->run($values);
 
-        $errors = $form_validation_cessil->error_string();
+        $errors = $form_validation_cessil->errorString();
 
         //destruyendo el objeto
         unset($form_validation_cessil);

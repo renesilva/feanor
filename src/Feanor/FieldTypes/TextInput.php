@@ -19,7 +19,7 @@ class TextInput extends \Feanor\FieldType
     {
         parent::__construct($_params, $_mode);
         $max_length = 30;
-        if (preg_match('/max_length\[(.*?)\]/', $this->conditions, $max_length)) {
+        if (preg_match('/maxLength\[(.*?)\]/', $this->conditions, $max_length)) {
             $this->max_length = $max_length[1];
         }
         if (isset($this->params['size']))
@@ -106,7 +106,7 @@ class TextInput extends \Feanor\FieldType
 
         switch ($this->subtype) {
             case '':
-                if (preg_match('/max_length\[(.*?)\]/', $this->conditions, $val)) {
+                if (preg_match('/maxLength\[(.*?)\]/', $this->conditions, $val)) {
                     $buffer = ' varchar (' . $val[1] . ') ';
                 } else {
                     $buffer = ' varchar (150) ';
