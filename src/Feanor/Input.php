@@ -155,7 +155,7 @@ class Input
     private static function clean ($str)
     {
         //utilizando la clase Security de Codeigniter
-        return FW::$security->xss_clean($str);
+        return FW::$security->xssClean($str);
         ;
     }
 }

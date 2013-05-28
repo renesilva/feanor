@@ -64,17 +64,17 @@ class CILang
      * @param 	string	alternative path to look for language file
      * @return	mixed
      */
-    public function load ($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+    public function load ($langfile = '', $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
     {
         $langfile = str_replace('.php', '', $langfile);
 
-        if ($add_suffix == TRUE) {
+        if ($add_suffix == true) {
             $langfile = str_replace('_lang.', '', $langfile) . '_lang';
         }
 
         $langfile .= '.php';
 
-        if (in_array($langfile, $this->is_loaded, TRUE)) {
+        if (in_array($langfile, $this->is_loaded, true)) {
             return;
         }
 
@@ -91,7 +91,7 @@ class CILang
             return;
         }
 
-        if ($return == TRUE) {
+        if ($return == true) {
             return $lang;
         }
 
@@ -100,7 +100,7 @@ class CILang
         unset($lang);
 
         log_message('debug', 'Language file loaded: language/' . $idiom . '/' . $langfile);
-        return TRUE;
+        return true;
     }
 
     // --------------------------------------------------------------------
@@ -114,14 +114,13 @@ class CILang
      */
     public function line ($line = '')
     {
-        $value = ($line == '' OR !isset($this->language[$line])) ? FALSE : $this->language[$line];
+        $value = ($line == '' or !isset($this->language[$line])) ? false : $this->language[$line];
 
         // Because killer robots like unicorns!
-        if ($value === FALSE) {
+        if ($value === false) {
             log_message('error', 'Could not find the language line "' . $line . '"');
         }
 
         return $value;
     }
-
 }
