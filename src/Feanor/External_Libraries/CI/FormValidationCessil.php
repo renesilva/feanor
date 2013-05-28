@@ -32,7 +32,7 @@ class FormValidationCessil
      */
     public function __construct ($rules = array())
     {
-        $this->CI = CI::get_instance();
+        $this->CI = CI::getInstance();
 
         // Validation rules can be stored in a config file.
         $this->_config_rules = $rules;
