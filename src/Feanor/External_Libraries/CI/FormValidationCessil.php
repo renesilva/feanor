@@ -43,7 +43,7 @@ class FormValidationCessil
             mb_internal_encoding('utf-8');
         }
 
-        log_message('debug', "Form Validation Class Initialized");
+        logMessage('debug', "Form Validation Class Initialized");
     }
 
     // --------------------------------------------------------------------
@@ -268,7 +268,7 @@ class FormValidationCessil
 
             // We're we able to set the rules correctly?
             if (count($this->field_data) == 0) {
-                log_message('debug', "Unable to find validation rules");
+                logMessage('debug', "Unable to find validation rules");
                 return false;
             }
         }
@@ -524,7 +524,7 @@ class FormValidationCessil
                             $this->field_data[$row['field']]['postdata'] = (is_bool($result)) ? $postdata : $result;
                         }
                     } else {
-                        log_message('debug', "Unable to find validation rule: " . $rule);
+                        logMessage('debug', "Unable to find validation rule: " . $rule);
                     }
 
                     continue;

@@ -109,20 +109,20 @@ class CISecurity
     {
         // CSRF config
         foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key) {
-            if (false !== ($val = config_item($key))) {
+            if (false !== ($val = configItem($key))) {
                 $this->{'_' . $key} = $val;
             }
         }
 
         // Append application specific cookie prefix
-        if (config_item('cookie_prefix')) {
-            $this->csrf_cookie_name = config_item('cookie_prefix') . $this->csrf_cookie_name;
+        if (configItem('cookie_prefix')) {
+            $this->csrf_cookie_name = configItem('cookie_prefix') . $this->csrf_cookie_name;
         }
 
         // Set the CSRF hash
         $this->csrfSetHash();
 
-        log_message('debug', "Security Class Initialized");
+        logMessage('debug', "Security Class Initialized");
     }
 
     // --------------------------------------------------------------------
@@ -159,7 +159,7 @@ class CISecurity
         $this->csrfSetHash();
         $this->csrfSetCookie();
 
-        log_message('debug', "CSRF token verified ");
+        logMessage('debug', "CSRF token verified ");
 
         return $this;
     }
@@ -174,7 +174,7 @@ class CISecurity
     public function csrfSetCookie ()
     {
         $expire = time() + $this->csrf_expire;
-        $secure_cookie = (config_item('cookie_secure') === true) ? 1 : 0;
+        $secure_cookie = (configItem('cookie_secure') === true) ? 1 : 0;
 
         if ($secure_cookie) {
             $req = isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : false;
@@ -188,12 +188,12 @@ class CISecurity
             $this->csrf_cookie_name,
             $this->csrf_hash,
             $expire,
-            config_item('cookie_path'),
-            config_item('cookie_domain'),
+            configItem('cookie_path'),
+            configItem('cookie_domain'),
             $secure_cookie
         );
 
-        log_message('debug', "CRSF cookie Set");
+        logMessage('debug', "CRSF cookie Set");
 
         return $this;
     }
@@ -207,7 +207,7 @@ class CISecurity
      */
     public function csrfShowError ()
     {
-        show_error('The action you have requested is not allowed.');
+        showError('The action you have requested is not allowed.');
     }
 
     // --------------------------------------------------------------------
@@ -283,7 +283,7 @@ class CISecurity
         /*
          * Remove Invisible Characters
          */
-        $str = remove_invisible_characters($str);
+        $str = removeInvisibleCharacters($str);
 
         // Validate Entities in URLs
         $str = $this->validateEntities($str);
@@ -316,7 +316,7 @@ class CISecurity
         /*
          * Remove Invisible Characters Again!
          */
-        $str = remove_invisible_characters($str);
+        $str = removeInvisibleCharacters($str);
 
         /*
          * Convert all tabs to spaces
@@ -465,7 +465,7 @@ class CISecurity
             return ($str == $converted_string) ? true : false;
         }
 
-        log_message('debug', "XSS Filtering completed");
+        logMessage('debug', "XSS Filtering completed");
         return $str;
     }
 
@@ -564,7 +564,7 @@ class CISecurity
             $bad[] = '/';
         }
 
-        $str = remove_invisible_characters($str, false);
+        $str = removeInvisibleCharacters($str, false);
         return stripslashes(str_replace($bad, '', $str));
     }
 
@@ -770,7 +770,7 @@ class CISecurity
      */
     protected function decodeEntity ($match)
     {
-        return $this->entityDecode($match[0], strtoupper(config_item('charset')));
+        return $this->entityDecode($match[0], strtoupper(configItem('charset')));
     }
 
     // --------------------------------------------------------------------

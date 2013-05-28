@@ -2,18 +2,18 @@
 namespace Feanor\External_Libraries\CI;
 
 //codeigniter functions
-function log_message ($level = '', $message = '')
+function logMessage ($level = '', $message = '')
 {
     //echo $message;
 }
 
-function show_error ($message)
+function showError ($message)
 {
     echo $message;
     exit();
 }
 
-function config_item ($key)
+function configItem ($key)
 {
     return \Feanor\Config::get($key);
 }
@@ -30,7 +30,7 @@ function config_item ($key)
  */
 if (!function_exists('remove_invisible_characters')) {
 
-    function remove_invisible_characters ($str, $url_encoded = true)
+    function removeInvisibleCharacters ($str, $url_encoded = true)
     {
         $non_displayables = array();
 

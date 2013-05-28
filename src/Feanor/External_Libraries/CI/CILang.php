@@ -48,7 +48,7 @@ class CILang
      */
     public function __construct ()
     {
-        log_message('debug', "Language Class Initialized");
+        logMessage('debug', "Language Class Initialized");
     }
 
     // --------------------------------------------------------------------
@@ -87,7 +87,7 @@ class CILang
 
 
         if (!isset($lang)) {
-            log_message('error', 'Language file contains no data: language/' . $idiom . '/' . $langfile);
+            logMessage('error', 'Language file contains no data: language/' . $idiom . '/' . $langfile);
             return;
         }
 
@@ -99,7 +99,7 @@ class CILang
         $this->language = array_merge($this->language, $lang);
         unset($lang);
 
-        log_message('debug', 'Language file loaded: language/' . $idiom . '/' . $langfile);
+        logMessage('debug', 'Language file loaded: language/' . $idiom . '/' . $langfile);
         return true;
     }
 
@@ -118,7 +118,7 @@ class CILang
 
         // Because killer robots like unicorns!
         if ($value === false) {
-            log_message('error', 'Could not find the language line "' . $line . '"');
+            logMessage('error', 'Could not find the language line "' . $line . '"');
         }
 
         return $value;
