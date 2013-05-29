@@ -372,7 +372,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
                     $field->current_id = $_id;
                     $field->current_object_name = $_table_name;
                     if (isset($field->params['meta']) && $field->params['meta']) {
-                        $values[$field_name] = get_metadata($field->name, $_table_name, $_id);
+                        $values[$field_name] = getMetadata($field->name, $_table_name, $_id);
                     }
                 }
             }
@@ -606,7 +606,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
                     //save meta!!!!!
                     if (isset($field->params['meta']) && $field->params['meta']) {
                         //La metadata que se guarda de estructuras debe tener un autoload=true (1)
-                        $saved = save_metadata($field->name, $config[$field->name]['value'], $_table_name, $_id, 1);
+                        $saved = saveMetadata($field->name, $config[$field->name]['value'], $_table_name, $_id, 1);
                     }
                 }
             }

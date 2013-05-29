@@ -10,7 +10,7 @@ namespace Feanor;
  * @param string $meta_tablename nombre de otra tabla JUST IN CASE
  * @return string
  */
-function get_metadata ($key, $meta_object_name, $id, $default_value = '', $meta_tablename = '')
+function getMetadata ($key, $meta_object_name, $id, $default_value = '', $meta_tablename = '')
 {
 
     $id_name = 'id_' . $meta_object_name;
@@ -44,7 +44,7 @@ function get_metadata ($key, $meta_object_name, $id, $default_value = '', $meta_
  * @param string $meta_tablename just in case
  * @return boolean
  */
-function save_metadata ($key, $value, $meta_object_name, $id, $autoload = 0, $meta_tablename = '')
+function saveMetadata ($key, $value, $meta_object_name, $id, $autoload = 0, $meta_tablename = '')
 {
 
     $id_name = 'id_' . $meta_object_name;

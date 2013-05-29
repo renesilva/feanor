@@ -78,9 +78,9 @@ class TextInput extends \Feanor\FieldType
 
             if (isset($this->params['appended']) && $this->params['appended'] != '') {
                 $buffer = $buffer . '<div class="input-append">' .
-                        \form_input($data) . '<span class="add-on">' . $this->params['appended'] . '</span></div>';
+                        \formInput($data) . '<span class="add-on">' . $this->params['appended'] . '</span></div>';
             } else {
-                $buffer .= \form_input($data);
+                $buffer .= \formInput($data);
             }
         } elseif ($this->mode === 'form_static' || $this->mode === 'table_static') {
             //en caso de que sea vacío

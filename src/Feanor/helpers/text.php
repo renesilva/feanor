@@ -1,18 +1,26 @@
 <?php
 //http://css-tricks.com/snippets/php/create-url-slug-from-post-title/
-function remove_accent ($str)
+function removeAccent ($str)
 {
     $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í',
         'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á',
         'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô',
-        'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ',
-        'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ',
-        'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į',
-        'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń',
-        'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř',
-        'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū',
-        'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž',
-        'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ',
+        'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ',
+        'ĉ',
+        'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě',
+        'Ĝ',
+        'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į',
+        'į',
+        'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł',
+        'Ń',
+        'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ',
+        'Ř',
+        'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū',
+        'ū',
+        'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž',
+        'ž',
+        'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ',
+        'Ǚ',
         'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ');
     $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I',
         'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a',
@@ -29,10 +37,15 @@ function remove_accent ($str)
     return str_replace($a, $b, $str);
 }
 
-function post_slug ($str)
+function postSlug ($str)
 {
-    return strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'),
-            array('', '-', ''), remove_accent($str)));
+    return strtolower(
+        preg_replace(
+            array('/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'),
+            array('', '-', ''),
+            removeAccent($str)
+        )
+    );
 }
 
 function humanize ($str)
@@ -93,10 +106,10 @@ function nicetime ($date)
  * @param	array
  * @return	string
  */
-function _parse_form_attributes ($attributes, $default)
+function parseFormAttributes ($attributes, $default)
 {
     if (is_array($attributes)) {
-        foreach ($default as $key=> $val) {
+        foreach ($default as $key => $val) {
             if (isset($attributes[$key])) {
                 $default[$key] = $attributes[$key];
                 unset($attributes[$key]);
@@ -110,9 +123,9 @@ function _parse_form_attributes ($attributes, $default)
 
     $att = '';
 
-    foreach ($default as $key=> $val) {
+    foreach ($default as $key => $val) {
         if ($key == 'value') {
-            $val = form_prep($val, $default['name']);
+            $val = formPrep($val, $default['name']);
         }
 
         $att .= $key . '="' . $val . '" ';
@@ -130,11 +143,11 @@ function _parse_form_attributes ($attributes, $default)
  * @param	string
  * @return	string
  */
-function form_input ($data = '', $value = '', $extra = '')
+function formInput ($data = '', $value = '', $extra = '')
 {
     $defaults = array('type'=>'text', 'name'=>((!is_array($data)) ? $data : ''), 'value'=>$value);
 
-    return "<input " . _parse_form_attributes($data, $defaults) . $extra . " />";
+    return "<input " . parseFormAttributes($data, $defaults) . $extra . " />";
 }
 
 /**
@@ -146,14 +159,14 @@ function form_input ($data = '', $value = '', $extra = '')
  * @param	string
  * @return	string
  */
-function form_prep ($str = '', $field_name = '')
+function formPrep ($str = '', $field_name = '')
 {
     $prepped_fields = array();
 
     // if the field name is an array we do this recursively
     if (is_array($str)) {
-        foreach ($str as $key=> $val) {
-            $str[$key] = form_prep($val);
+        foreach ($str as $key => $val) {
+            $str[$key] = formPrep($val);
         }
 
         return $str;
