@@ -22,11 +22,12 @@ class TextInput extends \Feanor\FieldType
         if (preg_match('/maxLength\[(.*?)\]/', $this->conditions, $max_length)) {
             $this->max_length = $max_length[1];
         }
-        if (isset($this->params['size']))
+        if (isset($this->params['size'])) {
             $this->size = $this->params['size'];
+        }
     }
 
-    public function _display ($valor, $other_values = array())
+    public function display ($valor, $other_values = array())
     {
 
         $buffer = '';
@@ -90,8 +91,9 @@ class TextInput extends \Feanor\FieldType
         }
 
         if ($this->mode === 'form_edit' || $this->mode === 'form_static') {
-            if (isset($this->params['help']))
+            if (isset($this->params['help'])) {
                 $buffer .= '<p class="help-block">' . $this->params['help'] . '</p>';
+            }
             $buffer .= '</div>';
         }
 
@@ -99,7 +101,7 @@ class TextInput extends \Feanor\FieldType
         return $buffer;
     }
 
-    public function _install ()
+    public function install ()
     {
         $buffer = '';
         $val = '';

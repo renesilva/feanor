@@ -194,7 +194,7 @@ class FW
                 if (isset($field->params['dont_insert_in_query']) && $field->params['dont_insert_in_query']) {
 
                 } else {
-                    $camposMostrar[] = $field->_install();
+                    $camposMostrar[] = $field->install();
                 }
                 //$camposMostrar[] = $fieldName . ' integer not null default 0';
             }
@@ -308,18 +308,19 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
      * @param string $_table_name Nombre de la tabla en caso de que no sea el mismo que del modelo/estructura
      * @return array
      */
-    public static function generate_form (
+    public static function generateForm (
         $_structure,
         $_title = '',
         $_ajax_functions = array(),
         $params = array(),
         $_display_type = 'form_edit',
         $_restriction = array(),
-        $_id = 0, $_help = '',
-        $_table_name = '')
-    {
+        $_id = 0,
+        $_help = '',
+        $_table_name = ''
+    ) {
 
-        if ($_table_name == ''){
+        if ($_table_name == '') {
             $_table_name = $_structure['table_name'];
         }
         !isset($params['form_action']) ? $form_action = '/' : $form_action = $params['form_action'];
@@ -381,7 +382,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
             if (array_key_exists($field_name, $values)) {
                 $valor = $values[$field_name];
             }
-            $fields_show[] = $field->_display($valor, $values);
+            $fields_show[] = $field->display($valor, $values);
         }
 
         $view = new View();
@@ -460,9 +461,9 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
                 } else {
                     if (isset($values[$field_name])) {
                         if ($mod == 'add') {
-                            $a = $field->_insert($values[$field_name]);
+                            $a = $field->insert($values[$field_name]);
                         } elseif ($mod == 'mod') {
-                            $a = $field->_update($values[$field_name]);
+                            $a = $field->update($values[$field_name]);
                         }
                         if (is_array($a)) {
                             $extra_values = array_merge($extra_values, $a['extra_values']);
@@ -511,13 +512,13 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
      * de que el modelo o estructura no tenga el mismo nombre que la tabla
      * @return array [$errors] evaluar si es === false, si no entonces tienes errores
      */
-    public static function add_data ($_structure, $_values, $_restriction = array(), $_id = 0, $_table_name = '')
+    public static function addData ($_structure, $_values, $_restriction = array(), $_id = 0, $_table_name = '')
     {
 
-        if ($_table_name == ''){
+        if ($_table_name == '') {
             $_table_name = $_structure['table_name'];
         }
-        if ($_id == 0){
+        if ($_id == 0) {
             $mod = 'add';
         } else {
             $mod = 'mod';
@@ -546,7 +547,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
             foreach ($config as $cc) {
                 if (!(isset($cc['dont_insert_in_query']) && $cc['dont_insert_in_query'])) {
                     $type = $cc['type'];
-                    if ($type != 'sw') {
+                    if ($type != 'SW') {
                         $fields[] = (string) '`' . $cc['field'] . '`';
                         $new_values[] = $cc['value'];
                     }
@@ -599,7 +600,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
                         if (isset($_values[$field_name])) {
                             $value = $_values[$field_name];
                         }
-                        $field->_after_add_data_query($value);
+                        $field->afterAddDataQuery($value);
                     }
 
                     //save meta!!!!!

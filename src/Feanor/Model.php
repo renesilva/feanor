@@ -56,7 +56,7 @@ class Model
         $success = false;
         $structure = static::get_model_structure();
         $key = $structure['keys']['key'][0];
-        $add_data = \Feanor\FW::add_data($structure, $this->get(), array(), $this->$key);
+        $add_data = \Feanor\FW::addData($structure, $this->get(), array(), $this->$key);
         if ($add_data['errors'] === false) {
             $this->$key = $add_data['id'];
             $success = true;

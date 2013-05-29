@@ -46,8 +46,9 @@ class Select extends \Feanor\FieldType
             $this->value = 0;
         }
 
-        if (isset($this->params['primary_key']))
+        if (isset($this->params['primary_key'])) {
             $this->primary_key = $this->params['primary_key'];
+        }
 
         isset($this->params['fields']) ? $this->fields = $this->params['fields'] : $this->fields = '';
         isset($this->params['foreign_table']) ?
@@ -82,7 +83,7 @@ class Select extends \Feanor\FieldType
         }
     }
 
-    public function _display ($valor = null, $other_values = array())
+    public function display ($valor = null, $other_values = array())
     {
         $buffer = '';
         $options = $this->options;
@@ -236,15 +237,16 @@ class Select extends \Feanor\FieldType
         }
 
         if ($this->mode === 'form_edit' || $this->mode === 'form_static') {
-            if (isset($this->params['help']))
+            if (isset($this->params['help'])) {
                 $buffer .= '<p class="help-block">' . $this->params['help'] . '</p>';
+            }
             $buffer .= '</div>';
         }
 
         return $buffer;
     }
 
-    public function _install ()
+    public function install ()
     {
 
         if (isset($this->params['save_as_text']) && $this->params['save_as_text']) {
@@ -280,7 +282,7 @@ class Select extends \Feanor\FieldType
         }
     }
 
-    public function _insert ($valor)
+    public function insert ($valor)
     {
         if (isset($this->params['save_as_text']) && $this->params['save_as_text'] && is_array($valor)) {
             $valor = implode('|', $valor);
@@ -288,7 +290,7 @@ class Select extends \Feanor\FieldType
         return $valor;
     }
 
-    public function _update ($valor)
+    public function update ($valor)
     {
         if (isset($this->params['save_as_text']) && $this->params['save_as_text'] && is_array($valor)) {
             $valor = implode('|', $valor);
@@ -296,7 +298,7 @@ class Select extends \Feanor\FieldType
         return $valor;
     }
 
-    public function _delete ($valor)
+    public function delete ($valor)
     {
         return $valor;
     }

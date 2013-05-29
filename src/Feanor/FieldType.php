@@ -129,42 +129,42 @@ abstract class FieldType
         }
     }
 
-    public function _display ($valor, $other_values = array())
+    public function display ($valor, $other_values = array())
     {
         return $valor;
     }
 
-    public function _install ()
+    public function install ()
     {
         return '';
     }
 
-    public function _insert ($valor)
+    public function insert ($valor)
     {
         return $valor;
     }
 
-    public function _update ($valor)
+    public function update ($valor)
     {
         return $valor;
     }
 
-    public function _delete ($valor)
+    public function delete ($valor)
     {
         return $valor;
     }
 
-    public function _get_column_information ()
+    public function getColumnInformation ()
     {
         return array();
     }
 
-    public function _after_add_data_query ($params)
+    public function afterAddDataQuery ($params)
     {
         return;
     }
 
-    public function _get_value ($valor = '')
+    public function getValue ($valor = '')
     {
         return $valor;
     }

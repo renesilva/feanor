@@ -18,15 +18,18 @@ class TextArea extends \Feanor\FieldType
     public function __construct ($_params = null, $_mode = null)
     {
         parent::__construct($_params, $_mode);
-        if (isset($this->params['rows']))
+        if (isset($this->params['rows'])) {
             $this->rows = $this->params['rows'];
-        if (isset($this->params['cols']))
+        }
+        if (isset($this->params['cols'])) {
             $this->cols = $this->params['cols'];
-        if (isset($this->params['wyswyg']))
+        }
+        if (isset($this->params['wyswyg'])) {
             $this->class = 'wyswyg_textarea';
+        }
     }
 
-    public function _display ($valor, $other_values = array())
+    public function display ($valor, $other_values = array())
     {
         $buffer = '';
         if ($this->mode == 'form_edit' || $this->mode == 'form_static') {
@@ -52,7 +55,7 @@ class TextArea extends \Feanor\FieldType
         }
 
         if ($this->mode === 'form_edit' || $this->mode === 'form_static') {
-            if (isset($this->params['help'])){
+            if (isset($this->params['help'])) {
                 $buffer .= '<p class="help-block">' . $this->params['help'] . '</p>';
             }
             $buffer .= '</div>';
@@ -102,7 +105,7 @@ class TextArea extends \Feanor\FieldType
           } */
     }
 
-    public function _install ()
+    public function install ()
     {
         $tipo = ' text ';
         if ($this->required) {
