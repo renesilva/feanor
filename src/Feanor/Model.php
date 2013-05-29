@@ -54,7 +54,7 @@ class Model
     public function save ()
     {
         $success = false;
-        $structure = static::get_model_structure();
+        $structure = static::getModelStructure();
         $key = $structure['keys']['key'][0];
         $add_data = \Feanor\FW::addData($structure, $this->get(), array(), $this->$key);
         if ($add_data['errors'] === false) {
@@ -95,7 +95,7 @@ class Model
         $plural = false;
 
         if (is_numeric($id_or_option)) {
-            $options['where'] = array('id_' . static::get_model_name() => $id_or_option);
+            $options['where'] = array('id_' . static::getModelName() => $id_or_option);
         } elseif (is_array($id_or_option)) {
             //2 primary keys :S
             //TODO implementar la opción para que podamos utilizar 2 primary keys :S
@@ -144,7 +144,7 @@ class Model
 
         $query = '
         SELECT ' . implode(',', $fields) . '
-        FROM ' . DB::$dbprefix_str . static::get_model_table_name()
+        FROM ' . DB::$dbprefix_str . static::getModelTableName()
                 . $where
                 . $order_by
                 . $limit;
@@ -174,7 +174,7 @@ class Model
      * @param array $options
      * @return array
      */
-    public static function find_all ($options = array())
+    public static function findAll ($options = array())
     {
         return static::find('all', $options);
     }
@@ -212,7 +212,7 @@ class Model
      * Antes (osea hace unos minutos), utilizaba get_called_class pero static:: hace lo mismo :S
      * @return string
      */
-    public static function get_model_name ()
+    public static function getModelName ()
     {
         if (!isset(static::$model_info['model_name'])) {
             $class = get_called_class();
@@ -227,7 +227,7 @@ class Model
      *
      * @return string
      */
-    public static function get_model_table_name ()
+    public static function getModelTableName ()
     {
         if (!isset(static::$model_info['table_name'])) {
             $class = get_called_class();
@@ -242,7 +242,7 @@ class Model
      *
      * @return Model
      */
-    public static function get_model_structure ()
+    public static function getModelStructure ()
     {
         if (!isset(static::$model_info['model_structure'])) {
             $fields = array();
@@ -279,7 +279,7 @@ class Model
                     'auto_increment' => $auto_increment,
                     'key' => $keys
                 ),
-                'table_name' => static::get_model_table_name()
+                'table_name' => static::getModelTableName()
             );
         }
         return static::$model_info['model_structure'];

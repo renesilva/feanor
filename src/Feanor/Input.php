@@ -30,14 +30,15 @@ class Input
     {
         if ($variable === '') {
             return array_map(
-                    function($value) {
-                        global $clean_xss;
-                        if ($clean_xss) {
-                            return self::clean($value);
-                        } else {
-                            return $value;
-                        }
-                    }, $_GET
+                function ($value) {
+                    global $clean_xss;
+                    if ($clean_xss) {
+                        return self::clean($value);
+                    } else {
+                        return $value;
+                    }
+                },
+                $_GET
             );
         } else {
             $return_variable = $default;
@@ -65,14 +66,15 @@ class Input
     {
         if ($variable === '') {
             return array_map(
-                    function($value) {
-                        global $clean_xss;
-                        if ($clean_xss) {
-                            return self::clean($value);
-                        } else {
-                            return $value;
-                        }
-                    }, $_POST
+                function ($value) {
+                    global $clean_xss;
+                    if ($clean_xss) {
+                        return self::clean($value);
+                    } else {
+                        return $value;
+                    }
+                },
+                $_POST
             );
         } else {
             $return_variable = $default;
@@ -99,9 +101,10 @@ class Input
     {
         if ($variable === '') {
             return array_map(
-                    function($value) {
-                        return self::clean($value);
-                    }, $_COOKIE
+                function ($value) {
+                    return self::clean($value);
+                },
+                $_COOKIE
             );
         } else {
             $return_variable = $default;
@@ -124,9 +127,15 @@ class Input
      * @param boolean $http_only para que solo funcione desde HTTP
      * @return boolean
      */
-    public static function set_cookie (
-    $name, $value, $expiration = 0, $path = null, $domain = null, $secure = false, $http_only = false)
-    {
+    public static function setCookie (
+        $name,
+        $value,
+        $expiration = 0,
+        $path = null,
+        $domain = null,
+        $secure = false,
+        $http_only = false
+    ) {
 
         if ($expiration != 0) {
             $expiration = time() + $expiration;
@@ -146,10 +155,10 @@ class Input
      * @param string $name
      * @return boolean
      */
-    public static function delete_cookie ($name)
+    public static function deleteCookie ($name)
     {
         unset($_COOKIE[$name]);
-        return static::set_cookie($name, null, -86400);
+        return static::setCookie($name, null, -86400);
     }
 
     private static function clean ($str)

@@ -37,8 +37,9 @@ class Structure
 
             $displayTypeField = $this->display_type;
 
-            if (isset($this->restriction[$fieldName]))
+            if (isset($this->restriction[$fieldName])) {
                 $displayTypeField = $this->restriction[$fieldName];
+            }
 
             if ($displayTypeField != 'dont_show') { // && $fieldName != 'sw'
                 if (isset($field['meta']) && $field['meta']) {

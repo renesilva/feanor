@@ -46,7 +46,7 @@ class View
         }
     }
 
-    public function partial_set ($var, $value = '')
+    public function partialSet ($var, $value = '')
     {
         if (is_array($var)) {
             $this->partial_vars = $var + $this->partial_vars;
@@ -69,7 +69,7 @@ class View
         return false;
     }
 
-    public function partial_get ($variable_name)
+    public function partialGet ($variable_name)
     {
         if (isset($this->partial_vars[$variable_name])) {
             return $this->partial_vars[$variable_name];
@@ -86,7 +86,7 @@ class View
      */
     public static function render ($return = false)
     {
-        if ($template = self::render_prepare(self::$vars, self::$layout)) {
+        if ($template = self::renderPrepare(self::$vars, self::$layout)) {
             extract(self::$vars);
             ob_start();
             include($template);
@@ -100,9 +100,9 @@ class View
         }
     }
 
-    public function partial_render ()
+    public function partialRender ()
     {
-        if ($template = self::render_prepare($this->partial_vars, $this->partial_layout)) {
+        if ($template = self::renderPrepare($this->partial_vars, $this->partial_layout)) {
             extract($this->partial_vars);
             ob_start();
             include($template);
@@ -111,7 +111,7 @@ class View
         }
     }
 
-    private static function render_prepare ($vars, $layout)
+    private static function renderPrepare ($vars, $layout)
     {
         if (strpos($layout, '.php') === false) {
             $layout .= '.php';
@@ -137,7 +137,7 @@ class View
         }
     }
 
-    public static function render_json ($array)
+    public static function renderJson ($array)
     {
         header('Content-type: application/json');
         echo json_encode($array);

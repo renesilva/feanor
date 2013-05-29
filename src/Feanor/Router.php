@@ -21,22 +21,22 @@ class Router
 
     }
 
-    public function set_controller ($_controller)
+    public function setController ($_controller)
     {
         $this->controller = $_controller;
     }
 
-    public function set_method ($_method)
+    public function setMethod ($_method)
     {
         $this->method = $_method;
     }
 
-    public function get_controller ()
+    public function getController ()
     {
         return $this->controller;
     }
 
-    public function get_method ()
+    public function getMethod ()
     {
         return $this->method;
     }
@@ -75,12 +75,12 @@ class Router
             if (isset($this->ar_path_info[1]) && $this->ar_path_info[1] !== '') {
                 if (FW::$loaded_module != '') {
                     if (isset($this->ar_path_info[2]) && $this->ar_path_info[2] !== '') {
-                        $this->set_controller(
-                                '\\Modules\\' . ucfirst($this->ar_path_info[1]) . '\Controllers\\' .
-                                ucfirst($this->ar_path_info[2])
+                        $this->setController(
+                            '\\Modules\\' . ucfirst($this->ar_path_info[1]) . '\Controllers\\' .
+                            ucfirst($this->ar_path_info[2])
                         );
                     } else {
-                        $this->set_controller(Config::get('default_controller'));
+                        $this->setController(Config::get('default_controller'));
                     }
 
                     $new_ar_path_array = array();
@@ -91,25 +91,25 @@ class Router
                     //el nuevo ar_path_info es lo mismo pero sin el primero valor de la carpeta
                     $this->ar_path_info = $new_ar_path_array;
                 } else {
-                    $this->set_controller('\Controllers\\' . ucfirst($this->ar_path_info[1]));
+                    $this->setController('\Controllers\\' . ucfirst($this->ar_path_info[1]));
                 }
                 unset($this->ar_path_info[1]);
             }
 
             if (isset($this->ar_path_info[2]) && $this->ar_path_info[2] !== '') {
-                $this->set_method($this->ar_path_info[2]);
+                $this->setMethod($this->ar_path_info[2]);
                 unset($this->ar_path_info[2]);
             } else {
-                $this->set_method(Config::get('default_method'));
+                $this->setMethod(Config::get('default_method'));
             }
         } else {
-            $this->set_controller(Config::get('default_controller'));
-            $this->set_method(Config::get('default_method'));
+            $this->setController(Config::get('default_controller'));
+            $this->setMethod(Config::get('default_method'));
         }
 
         //verificamos si existe el controller de otra forma entregar un 404s
-        $controller_name = $this->get_controller();
-        $method_name = $this->get_method();
+        $controller_name = $this->getController();
+        $method_name = $this->getMethod();
 
         //set args
         $args = array_values($this->ar_path_info);
