@@ -21,14 +21,19 @@ class Router
 
     }
 
+    private function camelCase($string)
+    {
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', str_replace('-', ' ', $string))));
+    }
+
     public function setController ($_controller)
     {
-        $this->controller = $_controller;
+        $this->controller = $this->camelCase($_controller);
     }
 
     public function setMethod ($_method)
     {
-        $this->method = $_method;
+        $this->method = $this->camelCase($_method);
     }
 
     public function getController ()
