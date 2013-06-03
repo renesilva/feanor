@@ -81,9 +81,9 @@ class FW
     {
 
         $this->config = new Config();
-        require_once(BASEPATH . 'app/config/config.php');
-        if (file_exists(BASEPATH . 'app/config/custom_config.php')) {
-            require_once(BASEPATH . 'app/config/custom_config.php');
+        require_once(BASEPATH . 'app/Config/config.php');
+        if (file_exists(BASEPATH . 'app/Config/custom_config.php')) {
+            require_once(BASEPATH . 'app/Config/custom_config.php');
         }
 
         $this->router = new Router();
@@ -120,11 +120,11 @@ class FW
             $modules = Config::get('modules', array());
             if (!empty($modules)) {
                 foreach ($modules as $module) {
-                    if (file_exists(BASEPATH . 'app/modules/' . $module . '/config/config.php')) {
-                        require_once(BASEPATH . 'app/modules/' . $module . '/config/config.php');
+                    if (file_exists(BASEPATH . 'app/Modules/' . $module . '/Config/config.php')) {
+                        require_once(BASEPATH . 'app/Modules/' . $module . '/Config/config.php');
                     }
-                    if (file_exists(BASEPATH . 'app/modules/' . $module . '/config/custom_config.php')) {
-                        require_once(BASEPATH . 'app/modules/' . $module . '/config/custom_config.php');
+                    if (file_exists(BASEPATH . 'app/Modules/' . $module . '/Config/custom_config.php')) {
+                        require_once(BASEPATH . 'app/Modules/' . $module . '/Config/custom_config.php');
                     }
                 }
             }
@@ -134,9 +134,9 @@ class FW
 
         //automatic view layout en caso de que no haya un render()
         if (!View::$rendered) {
-            $base = BASEPATH . 'app/views/';
+            $base = BASEPATH . 'app/Views/';
             if (FW::$loaded_module != '') {
-                $base = BASEPATH . 'app/modules/' . FW::$loaded_module . '/views/';
+                $base = BASEPATH . 'app/Modules/' . FW::$loaded_module . '/Views/';
             }
             $controller_explode = explode('\\', $this->router->getController());
             $layout = strtolower(end($controller_explode)) . '/' . $this->router->getMethod() . '.php';
@@ -326,7 +326,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
         !isset($params['form_action']) ? $form_action = '/' : $form_action = $params['form_action'];
         //Definimos el Template del generador,
         //este puede cambiar en caso de enviar otro parámetro
-        !isset($params['template']) ? $template = 'core/views/forms.php' : $template = $params['template'];
+        !isset($params['template']) ? $template = 'core/Views/forms.php' : $template = $params['template'];
         !isset($params['html_before_submit']) ?
                         $html_before_submit = '' : $html_before_submit = $params['html_before_submit'];
         !isset($params['html_before_table']) ?
@@ -337,7 +337,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
 
         //Forma para mostrar por defecto
         if ($_display_type == 'table_edit') {
-            $template = 'core/views/generateformtable.php';
+            $template = 'core/Views/generateformtable.php';
         }
 
         //nonce

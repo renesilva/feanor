@@ -116,11 +116,11 @@ class View
         if (strpos($layout, '.php') === false) {
             $layout .= '.php';
         }
-        $base = BASEPATH . 'app/views/';
+        $base = BASEPATH . 'app/Views/';
         if (FW::$loaded_module != '') {
-            $base = BASEPATH . 'app/modules/' . FW::$loaded_module . '/views/';
+            $base = BASEPATH . 'app/Modules/' . FW::$loaded_module . '/Views/';
         }
-        if (strpos($layout, 'core/views/') !== false) {
+        if (strpos($layout, 'core/Views/') !== false) {
             $base = __DIR__ . '/';
         }
         $template = $base . $layout;
