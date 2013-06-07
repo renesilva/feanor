@@ -112,23 +112,19 @@ class FW
         define('BASE_DOMAIN', $_SERVER['HTTP_HOST']);
         define('BASE_PATH', $partial_path);
 
-        //ROUTER INIT
-        $this->router->init();
-
-        if (FW::$loaded_module != '') {
-            //Modules
-            $modules = Config::get('modules', array());
-            if (!empty($modules)) {
-                foreach ($modules as $module) {
-                    if (file_exists(BASEPATH . 'app/Modules/' . $module . '/Config/config.php')) {
-                        require_once(BASEPATH . 'app/Modules/' . $module . '/Config/config.php');
-                    }
-                    if (file_exists(BASEPATH . 'app/Modules/' . $module . '/Config/custom_config.php')) {
-                        require_once(BASEPATH . 'app/Modules/' . $module . '/Config/custom_config.php');
-                    }
-                }
+        //Modules
+        $modules = Config::get('modules', array());
+        foreach ($modules as $module) {
+            if (file_exists(BASEPATH . 'app/Modules/' . $module . '/Config/config.php')) {
+                require_once(BASEPATH . 'app/Modules/' . $module . '/Config/config.php');
+            }
+            if (file_exists(BASEPATH . 'app/Modules/' . $module . '/Config/custom_config.php')) {
+                require_once(BASEPATH . 'app/Modules/' . $module . '/Config/custom_config.php');
             }
         }
+
+        //ROUTER INIT
+        $this->router->init();
 
         $this->router->execute();
 

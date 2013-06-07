@@ -13,9 +13,10 @@ class Router
 {
     private $controller;
     private $method;
-    private $rules;
     private $ar_path_info = array();
 
+    public static $rules = array();
+    
     public function __construct ()
     {
 
@@ -46,29 +47,49 @@ class Router
         return $this->method;
     }
 
-    public static function register ($rule)
+    /**
+     *
+     * @param string $rule
+     * @param array $rule_info
+     */
+    public static function register ($rule, $rule_info)
     {
-        $this->rules[] = $rule;
+        static::$rules[$rule] = $rule_info;
     }
 
     public function init ()
     {
         if (isset($_SERVER['PATH_INFO'])) {
+
             //usamos rtrim para borrar el último "/"
             $path_info = rtrim($_SERVER['PATH_INFO'], '/');
 
             //cleaning de pathinfo ...
             //...
 
+            //redirecciones
+            $matches = array();
+            foreach (static::$rules as $rule => $controller) {
+                $final_rule = '/^'.str_replace('/', '\/', $rule).'/';
+                if (preg_match($final_rule, $path_info, $matches)) {
+                    unset($matches[0]);//para que no muestre el mismo match :S
+                    $path_info = $controller['route'].'/'.implode('/', $matches);
+                    break;
+                }
+            }
+                
             $this->ar_path_info = explode('/', $path_info);
             unset($this->ar_path_info[0]);
 
             if (isset($this->ar_path_info[1]) && $this->ar_path_info[1] !== '') {
                 $modules = Config::get('modules', array());
+                $this->ar_path_info[1] = ucfirst($this->ar_path_info[1]);
                 if (in_array($this->ar_path_info[1], $modules)) {
                     FW::$loaded_module = $this->ar_path_info[1];
                 }
             }
+            
+
         }
     }
 
