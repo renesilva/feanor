@@ -123,6 +123,9 @@ class View
         if (strpos($layout, 'core/Views/') !== false) {
             $base = __DIR__ . '/';
         }
+        if (strpos($layout, '/') === 0) {
+            $base = BASEPATH . 'app/Views/';
+        }
         $template = $base . $layout;
         try {
             if (!file_exists($template)) {
@@ -141,5 +144,15 @@ class View
     {
         header('Content-type: application/json');
         echo json_encode($array);
+    }
+
+    public static function renderBase($layout)
+    {
+        View::$layout = $layout;
+        $rendered_layout = View::render(true);
+
+        View::$layout = '/base.php';
+        View::set('content',$rendered_layout);
+        View::render();
     }
 }
