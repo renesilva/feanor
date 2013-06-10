@@ -322,7 +322,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
         !isset($params['form_action']) ? $form_action = '/' : $form_action = $params['form_action'];
         //Definimos el Template del generador,
         //este puede cambiar en caso de enviar otro parámetro
-        !isset($params['template']) ? $template = 'core/Views/forms.php' : $template = $params['template'];
+        !isset($params['template']) ? $template = 'Core/Views/forms.php' : $template = $params['template'];
         !isset($params['html_before_submit']) ?
                         $html_before_submit = '' : $html_before_submit = $params['html_before_submit'];
         !isset($params['html_before_table']) ?
@@ -333,7 +333,7 @@ CREATE TABLE `' . DB::dbprefix($table['table_name']) . '`
 
         //Forma para mostrar por defecto
         if ($_display_type == 'table_edit') {
-            $template = 'core/Views/generateformtable.php';
+            $template = 'Core/Views/generateformtable.php';
         }
 
         //nonce

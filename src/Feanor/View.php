@@ -120,7 +120,7 @@ class View
         if (FW::$loaded_module != '') {
             $base = BASEPATH . 'app/Modules/' . FW::$loaded_module . '/Views/';
         }
-        if (strpos($layout, 'core/Views/') !== false) {
+        if (strpos($layout, 'Core/Views/') !== false) {
             $base = __DIR__ . '/';
         }
         if (strpos($layout, '/') === 0) {
@@ -152,7 +152,7 @@ class View
         $rendered_layout = View::render(true);
 
         View::$layout = '/base.php';
-        View::set('content',$rendered_layout);
+        View::set('content', $rendered_layout);
         View::render();
     }
 }

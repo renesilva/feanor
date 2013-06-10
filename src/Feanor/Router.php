@@ -84,12 +84,12 @@ class Router
             if (isset($this->ar_path_info[1]) && $this->ar_path_info[1] !== '') {
                 $modules = Config::get('modules', array());
                 $this->ar_path_info[1] = ucfirst($this->ar_path_info[1]);
-                if (in_array($this->ar_path_info[1], $modules)) {
+                if ($this->ar_path_info[1] === 'Core') {
+                    FW::$loaded_module = 'Core';
+                } elseif (in_array($this->ar_path_info[1], $modules)) {
                     FW::$loaded_module = $this->ar_path_info[1];
                 }
             }
-            
-
         }
     }
 
@@ -100,14 +100,23 @@ class Router
 
             if (isset($this->ar_path_info[1]) && $this->ar_path_info[1] !== '') {
                 if (FW::$loaded_module != '') {
-                    if (isset($this->ar_path_info[2]) && $this->ar_path_info[2] !== '') {
+
+                    if (FW::$loaded_module === 'Core') {
                         $this->setController(
-                            '\\Modules\\' . ucfirst($this->ar_path_info[1]) . '\Controllers\\' .
+                            '\\Feanor\\' . ucfirst($this->ar_path_info[1]) . '\Controllers\\' .
                             ucfirst($this->ar_path_info[2])
                         );
                     } else {
-                        $this->setController(Config::get('default_controller'));
+                        if (isset($this->ar_path_info[2]) && $this->ar_path_info[2] !== '') {
+                            $this->setController(
+                                '\\Modules\\' . ucfirst($this->ar_path_info[1]) . '\Controllers\\' .
+                                ucfirst($this->ar_path_info[2])
+                            );
+                        } else {
+                            $this->setController(Config::get('default_controller'));
+                        }
                     }
+
 
                     $new_ar_path_array = array();
                     foreach ($this->ar_path_info as $path_info_key => $path_info_element) {
