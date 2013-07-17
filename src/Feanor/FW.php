@@ -126,7 +126,25 @@ class FW
         //ROUTER INIT
         $this->router->init();
 
-        $this->router->execute();
+        //verificamos si existe el controller de otra forma entregar un 404s
+        $controller_name = $this->router->getController();
+        $method_name = $this->router->getMethod();
+
+        //set args
+        $args = array_values($this->router->getArPathInfo());
+
+        try {
+            if (class_exists($controller_name)) {
+                $controller = new $controller_name();
+                //le pasamos sus variables en caso de que las tenga
+                call_user_func_array(array($controller, $method_name), $args);
+            } else {
+                throw new \Exception('No existe el controlador <strong>' . $controller_name . '</strong>');
+            }
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage() . '<br/>';
+            var_dump(debug_backtrace());
+        }
 
         //automatic view layout en caso de que no haya un render()
         if (!View::$rendered) {
@@ -143,6 +161,91 @@ class FW
             }
         }
     }
+
+    /**
+     * Verifica si el usuario que inició sesión tiene los privilegios para
+     * realizar la función de acuerdo a su tipo de sesión
+     *
+     * Esta información va en el archivo de configuración en el array
+     * $config['authorization']. Si se coloca un controlador y un asterisco
+     * como método entonces significa que todos los métodos de ese controlador
+     * son accesibles.
+     *
+     * @param string $show_error_as Tipo de respuesta HTML || AJAX
+     * @return void
+     */
+    private function checkAuthorization ($show_error_as = 'HTML')
+    {
+        $users = Config::get('authorization_users');
+        $rules = Config::get('authorization_rules');
+        $valid = false;
+        if (in_array(Session::get('user_type'), $users)) {
+            foreach ($rules[Session::get('user_type')] as $rule) {
+                $role = '*';
+                if (isset($rule['role'])) {
+                    $role = $rule['role'];
+                }
+
+                $service = '*';
+                if (isset($rule['service'])) {
+                    $service = $rule['service'];
+                }
+                if ($service == '*' ||
+                        array_key_exists($service, $this->current_user->services[$this->account->id_account])) {
+                    if ($role == '*' ||
+                            in_array(
+                                $role,
+                                $this->current_user->services[$this->account->id_account][$service]['role']
+                            )
+                    ) {
+                        $v = explode('/', $rule['url']);
+                        $size_of_array = sizeof($v);
+                        $class_temp = $v[$size_of_array - 2];
+                        $method_temp = $v[$size_of_array - 1];
+                        $directory_temp = '';
+                        if ($size_of_array > 2) {
+                            unset($v[$size_of_array - 2]);
+                            unset($v[$size_of_array - 1]);
+                            $directory_temp = implode('/', $v) . '/';
+                        }
+                        if ($this->router->directory == $directory_temp) {
+                            if ($this->router->class == $class_temp) {
+                                //si es el metodo o el comodin
+                                if ($this->router->method === $method_temp || $method_temp === '*') {
+                                    $valid = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (!$valid) {
+            if ($this->input->is_ajax_request()) {
+                $show_error_as = 'AJAX';
+            }
+            if ($show_error_as == 'HTML') {
+                //para guardarlo por si inicia sesión
+                if ($this->current_user->id_user == 0) {
+                    @session_start();
+                    $_SESSION['previous_url'] = $this->uri->uri_string();
+                    redirect($this->base_url . $this->config->item('login_url'));
+                } else {
+                    $this->view->layout = 'users/access_denied';
+                    $contents = $this->view->render(true);
+                    echo $contents;
+                    exit();
+                }
+                //$message = sprintf($this->lang->line('fwerror_no_access_html'), $this->base_url);
+                //echo $message;
+            } elseif ($show_error_as == 'AJAX') {
+                echo $this->lang->line('fwerror_no_access_ajax', $this->base_url);
+                exit();
+            }
+        }
+    }
+    
     /*     * ********************************************************** */
     /*     * *********************FUNCIONES*STRUCTURE****************** */
     /*     * ********************************************************** */

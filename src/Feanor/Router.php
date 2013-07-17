@@ -47,6 +47,11 @@ class Router
         return $this->method;
     }
 
+    public function getArPathInfo ()
+    {
+        return $this->ar_path_info;
+    }
+
     /**
      *
      * @param string $rule
@@ -70,14 +75,14 @@ class Router
             //redirecciones
             $matches = array();
             foreach (static::$rules as $rule => $controller) {
-                $final_rule = '/^'.str_replace('/', '\/', $rule).'/';
+                $final_rule = '/^'.str_replace('/', '\/', $rule).'$/';
                 if (preg_match($final_rule, $path_info, $matches)) {
                     unset($matches[0]);//para que no muestre el mismo match :S
                     $path_info = $controller['route'].'/'.implode('/', $matches);
                     break;
                 }
             }
-                
+            
             $this->ar_path_info = explode('/', $path_info);
             unset($this->ar_path_info[0]);
 
@@ -91,10 +96,6 @@ class Router
                 }
             }
         }
-    }
-
-    public function execute ()
-    {
 
         if (!empty($this->ar_path_info)) {
 
@@ -137,29 +138,10 @@ class Router
             } else {
                 $this->setMethod(Config::get('default_method'));
             }
+            
         } else {
             $this->setController(Config::get('default_controller'));
             $this->setMethod(Config::get('default_method'));
-        }
-
-        //verificamos si existe el controller de otra forma entregar un 404s
-        $controller_name = $this->getController();
-        $method_name = $this->getMethod();
-
-        //set args
-        $args = array_values($this->ar_path_info);
-
-        try {
-            if (class_exists($controller_name)) {
-                $controller = new $controller_name();
-                //le pasamos sus variables en caso de que las tenga
-                call_user_func_array(array($controller, $method_name), $args);
-            } else {
-                throw new \Exception('No existe el controlador <strong>' . $controller_name . '</strong>');
-            }
-        } catch (\Exception $e) {
-            echo 'Error: ' . $e->getMessage() . '<br/>';
-            var_dump(debug_backtrace());
         }
     }
 }
