@@ -81,10 +81,12 @@ class CILang
         $idiom = 'english';
 
         // Determine where the language file is and load it
-        if (file_exists(BASEPATH . 'feanor/external/CI/language/' . $langfile)) {
-            include(BASEPATH . 'feanor/external/CI/language/' . $langfile);
+        if (file_exists(BASEPATH. '/app/Config/' . $langfile)) {
+            include(BASEPATH. '/app/Config/' . $langfile);
+        } else {
+            include(__DIR__ . '/language/' . $langfile);
         }
-
+        
 
         if (!isset($lang)) {
             logMessage('error', 'Language file contains no data: language/' . $idiom . '/' . $langfile);
